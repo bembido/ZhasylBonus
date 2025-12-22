@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ZhasylBonus - Поддержать организации</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="../styles/main.css">
+	<link rel="stylesheet" href="../styles/donate.css">
+</head>
+
+<body>
+	<div class="app-container">
+		<!-- Навигация -->
+		<header class="navbar navbar-clean">
+			<div class="navbar-container">
+				<div class="logo logo-with-image">
+					<a href="../index.html"><img src="../assets/ZhasylBonus.png" alt="ZhaylBonus" class="logo-img"></a>
+				</div>
+				<button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Меню">
+					<span class="hamburger"></span>
+				</button>
+				<nav class="nav-menu" id="main-nav" role="navigation">
+					<a href="../index.html" class="nav-btn" data-page="home">Главная</a>
+					<a href="map.html" class="nav-btn" data-page="map">Карта проблем</a>
+					<a href="report.html" class="nav-btn" data-page="report">Отправить отчёт</a>
+					<a href="volunteers.html" class="nav-btn" data-page="volunteers">Волонтёры</a>
+				</nav>
+				<div class="nav-actions">
+					<a href="donate.html" class="donate-now">Donate Now</a>
+					<div class="user-info">
+						<span id="username-display"></span>
+						<button class="login-btn" id="login-toggle">Вход</button>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<div id="auth-modal" class="modal hidden">
+			<div class="modal-content">
+				<span class="close">&times;</span>
+				<div class="auth-container">
+					<div class="auth-tab active" data-tab="login">
+						<h2>Вход</h2>
+						<form id="login-form" onsubmit="handleSupabaseLogin(event)">
+							<input type="email" placeholder="Email" id="login-email" required>
+							<input type="password" placeholder="Пароль" id="login-password" required>
+							<button type="submit">Вход</button>
+						</form>
+					</div>
+					<div class="auth-tab" data-tab="register">
+						<h2>Регистрация</h2>
+						<form id="register-form" onsubmit="handleSupabaseRegister(event)">
+							<input type="text" placeholder="Имя пользователя" id="register-name" required>
+							<input type="email" placeholder="Email" id="register-email" required>
+							<input type="password" placeholder="Пароль" id="register-password" required>
+							<button type="submit">Зарегистрироваться</button>
+						</form>
+					</div>
+					<div class="auth-tabs">
+						<button class="tab-btn active" data-tab="login">Вход</button>
+						<button class="tab-btn" data-tab="register">Регистрация</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<section id="donate-page" class="page active">
+			<div class="donate-container">
+				<h2>Поддержи волонтёрские организации</h2>
+				<p class="donate-intro">Пожертвуй свои эко-баллы, чтобы помочь организациям, которые борются с экологическими проблемами</p>
+
+				<div class="organizations-grid">
+					<div class="org-card">
+						<div class="org-icon" aria-label="Recycling" role="img">
+							<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false">
+								<path fill="currentColor" d="M12 2a10 10 0 1 0 10 10A10.01 10.01 0 0 0 12 2Zm0 18a8 8 0 1 1 8-8 8.01 8.01 0 0 1-8 8Z"/>
+								<path fill="currentColor" d="M12 6.2c2.8 0 5.12 1.75 5.8 4.2h-2.2l2.9 3.3 2.9-3.3h-2.1C18.5 7.6 15.55 5.4 12 5.4c-3.6 0-6.6 2.3-7.7 5.5l1.85.75C7.03 8.78 9.33 6.2 12 6.2Z"/>
+								<path fill="currentColor" d="M6.2 13.6h2.2l-2.9-3.3-2.9 3.3h2.1c.8 2.8 3.5 4.9 6.8 4.9 3.2 0 6-2 6.9-4.8l-1.85-.75c-.75 2.06-2.9 3.55-5.05 3.55-2.4 0-4.55-1.35-5.25-2.9Z"/>
+							</svg>
+						</div>
+						<h3>Зелёная планета</h3>
+						<p class="org-desc">Посадка деревьев и восстановление лесов</p>
+						<div class="org-progress">
+							<div class="progress-bar">
+								<div class="progress-fill" style="width: 65%"></div>
+							</div>
+							<span class="progress-text">6500 / 10000 баллов</span>
+						</div>
+						<div class="donation-buttons">
+							<input type="number" class="donation-input" placeholder="Баллы" min="1" max="10000">
+							<button class="btn-primary donate-org-btn" data-org="green-planet">Пожертвовать</button>
+						</div>
+					</div>
+
+					<div class="org-card">
+						<div class="org-icon" aria-label="Clean water" role="img">
+							<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false">
+								<path fill="currentColor" d="M3 15c1.8-1.2 3.6-1.2 5.4 0s3.6 1.2 5.4 0 3.6-1.2 5.4 0 3.6 1.2 5.4 0v2c-1.8 1.2-3.6 1.2-5.4 0s-3.6-1.2-5.4 0-3.6 1.2-5.4 0S4.8 15.8 3 17Z"/>
+								<path fill="currentColor" d="M3 11c1.8-1.2 3.6-1.2 5.4 0s3.6 1.2 5.4 0 3.6-1.2 5.4 0 3.6 1.2 5.4 0v2c-1.8 1.2-3.6 1.2-5.4 0s-3.6-1.2-5.4 0-3.6 1.2-5.4 0S4.8 11.8 3 13Z"/>
+							</svg>
+						</div>
+						<h3>Чистая вода</h3>
+						<p class="org-desc">Очистка водоёмов и морей</p>
+						<div class="org-progress">
+							<div class="progress-bar">
+								<div class="progress-fill" style="width: 45%"></div>
+							</div>
+							<span class="progress-text">4500 / 10000 баллов</span>
+						</div>
+						<div class="donation-buttons">
+							<input type="number" class="donation-input" placeholder="Баллы" min="1" max="10000">
+							<button class="btn-primary donate-org-btn" data-org="clean-water">Пожертвовать</button>
+						</div>
+					</div>
+
+					<div class="org-card">
+						<div class="org-icon" aria-label="Planet" role="img">
+							<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false">
+								<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/>
+								<path d="M3 12h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+								<path d="M12 3c2.8 2.7 2.8 15.3 0 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+								<path d="M12 3c-2.8 2.7-2.8 15.3 0 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+							</svg>
+						</div>
+						<h3>Борьба с глобальным потеплением</h3>
+						<p class="org-desc">Снижение выбросов и озеленение</p>
+						<div class="org-progress">
+							<div class="progress-bar">
+								<div class="progress-fill" style="width: 80%"></div>
+							</div>
+							<span class="progress-text">8000 / 10000 баллов</span>
+						</div>
+						<div class="donation-buttons">
+							<input type="number" class="donation-input" placeholder="Баллы" min="1" max="10000">
+							<button class="btn-primary donate-org-btn" data-org="climate">Пожертвовать</button>
+						</div>
+					</div>
+
+					<div class="org-card">
+						<div class="org-icon" aria-label="Wildlife" role="img">
+							<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false">
+								<path fill="currentColor" d="M12 4.5c3.6 0 6.5 2.9 6.5 6.5 0 3-2 5.6-4.8 6.3V20H10.3v-2.7C7.5 16.6 5.5 14 5.5 11c0-3.6 2.9-6.5 6.5-6.5Zm0 3.2a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4Zm-2.6 2.1a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm5.2 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm-5.1 4.5c.8 1 1.7 1.5 2.5 1.5s1.7-.5 2.5-1.5c.4-.5 1.2.1.8.7-1 1.3-2.2 2-3.3 2s-2.3-.7-3.3-2c-.4-.6.4-1.2.8-.7Z"/>
+							</svg>
+						</div>
+						<h3>Защита дикой природы</h3>
+						<p class="org-desc">Охрана животных и биоразнообразия</p>
+						<div class="org-progress">
+							<div class="progress-bar">
+								<div class="progress-fill" style="width: 55%"></div>
+							</div>
+							<span class="progress-text">5500 / 10000 баллов</span>
+						</div>
+						<div class="donation-buttons">
+							<input type="number" class="donation-input" placeholder="Баллы" min="1" max="10000">
+							<button class="btn-primary donate-org-btn" data-org="wildlife">Пожертвовать</button>
+						</div>
+					</div>
+
+					<div class="org-card">
+						<div class="org-icon" aria-label="Emergency response" role="img">
+							<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false">
+								<path fill="currentColor" d="M12.5 2c1.8 3 .7 4.9-.3 6.2-.8 1.1-1.5 2.1-.8 3.5.5 1 1.6 1.6 2.8 1.6 2.2 0 3.8-1.9 3.8-4.2 0-1.5-.6-2.8-1.8-4.2 3.3 2 5.1 5 5.1 8.2C21.3 18 17.2 22 12 22S2.7 18 2.7 13.1C2.7 8.5 5.7 5.3 9.8 3c-.2 1.6.4 2.8 1.2 3.8.4.5 1 .4 1.2-.1.6-1.3 1.2-2.8.3-4.7Z"/>
+							</svg>
+						</div>
+						<h3>Спасение экосистем</h3>
+						<p class="org-desc">Помощь при экологических катастрофах</p>
+						<div class="org-progress">
+							<div class="progress-bar">
+								<div class="progress-fill" style="width: 35%"></div>
+							</div>
+							<span class="progress-text">3500 / 10000 баллов</span>
+						</div>
+						<div class="donation-buttons">
+							<input type="number" class="donation-input" placeholder="Баллы" min="1" max="10000">
+							<button class="btn-primary donate-org-btn" data-org="ecosystem">Пожертвовать</button>
+						</div>
+					</div>
+
+					<div class="org-card">
+						<div class="org-icon" aria-label="Youth ecology" role="img">
+							<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false">
+								<path fill="currentColor" d="M12 21c-.6 0-1-.4-1-1v-6.2c-2.5.4-5.3-.7-7-2.9C2.3 8.8 2 6.6 3.2 4.8c.2-.3.6-.5 1-.4 2 .2 4 1.1 5.5 2.6 1.1 1.1 1.9 2.6 2.2 4.2.9-2.1 2.7-4 5-5 1.3-.6 2.8-.9 4.3-.8.5 0 .9.3 1 .8.4 2.2-.4 4.7-2.3 6.4-2 1.8-4.8 2.4-7.4 1.6V20c0 .6-.4 1-1 1Z"/>
+							</svg>
+						</div>
+						<h3>Молодые экологи</h3>
+						<p class="org-desc">Образование и воспитание нового поколения</p>
+						<div class="org-progress">
+							<div class="progress-bar">
+								<div class="progress-fill" style="width: 70%"></div>
+							</div>
+							<span class="progress-text">7000 / 10000 баллов</span>
+						</div>
+						<div class="donation-buttons">
+							<input type="number" class="donation-input" placeholder="Баллы" min="1" max="10000">
+							<button class="btn-primary donate-org-btn" data-org="young-eco">Пожертвовать</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="impact-section">
+					<h3>Как твоё пожертвование изменяет мир</h3>
+					<div class="impact-info">
+						<div class="impact-item">
+							<span class="impact-icon" aria-label="Tree" role="img">
+								<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+									<path fill="currentColor" d="M12 2c-2.6 1.9-4 4.1-4 6.4 0 .7.1 1.4.4 2.1H6.2c-.7 0-1.2.7-.9 1.4.8 2 2.4 3.5 4.3 4.3V22h4.8v-3.2c1.9-.8 3.5-2.3 4.3-4.3.3-.7-.2-1.4-.9-1.4h-2.2c.3-.7.4-1.4.4-2.1C16 6.1 14.6 3.9 12 2Z"/>
+								</svg>
+							</span>
+							<p><strong>100 баллов</strong> = 1 посаженное дерево</p>
+						</div>
+						<div class="impact-item">
+							<span class="impact-icon" aria-label="Water" role="img">
+								<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+									<path fill="currentColor" d="M12 2c3.7 5 6 8.1 6 12a6 6 0 0 1-12 0c0-3.9 2.3-7 6-12Zm0 18a4 4 0 0 0 4-4c0-2.4-1.4-4.8-4-8.5C9.4 11.2 8 13.6 8 16a4 4 0 0 0 4 4Z"/>
+								</svg>
+							</span>
+							<p><strong>50 баллов</strong> = 100 литров очищенной воды</p>
+						</div>
+						<div class="impact-item">
+							<span class="impact-icon" aria-label="CO2 offset" role="img">
+								<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+									<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/>
+									<path d="M3 12h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+									<path d="M12 3c2.8 2.7 2.8 15.3 0 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+									<path d="M12 3c-2.8 2.7-2.8 15.3 0 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+								</svg>
+							</span>
+							<p><strong>200 баллов</strong> = 1 тонна углерода компенсирована</p>
+						</div>
+						<div class="impact-item">
+							<span class="impact-icon" aria-label="Habitat" role="img">
+								<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+									<path fill="currentColor" d="M12 12c-.7-1.2-1.6-2.2-2.8-3-1.6-1-3.6-1.3-5.2-.9-.5.1-.9.5-1 .9-.4 2 .4 4.2 2.1 5.7 1.5 1.3 3.5 1.8 5.3 1.4.6 1.4.6 3.1 0 5-.2.6.5 1.1 1 .7 1.2-1 2-2.1 2.4-3.4.4 1.3 1.2 2.4 2.4 3.4.5.4 1.2-.1 1-.7-.6-1.9-.6-3.6 0-5 1.8.4 3.8-.1 5.3-1.4 1.7-1.5 2.5-3.7 2.1-5.7-.1-.5-.5-.8-1-.9-1.6-.4-3.6-.1-5.2.9-1.2.8-2.1 1.8-2.8 3Z"/>
+								</svg>
+							</span>
+							<p><strong>150 баллов</strong> = Защищена среда обитания животных</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<div id="notification" class="notification hidden"></div>
+
+	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+	
+	<script src="../js/config.js"></script>
+	<script src="../js/ui.js"></script>
+	<script src="../js/auth.js"></script>
+	<script src="../js/api.js"></script>
+	<script src="../js/map.js"></script>
+	<script src="../js/missions.js"></script>
+	<script src="../js/app.new.js"></script>
+	
+	<script>
+		document.body.dataset.page = 'donate';
+	</script>
+</body>
+
+</html>

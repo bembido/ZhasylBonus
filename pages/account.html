@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZhasylBonus - Личный кабинет</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/account.css">
+</head>
+<body>
+    <div class="bg-blob"></div>
+    <div class="bg-blob-2"></div>
+
+    <header class="navbar navbar-clean">
+        <div class="navbar-container">
+            <div class="logo logo-with-image">
+                <a href="../index.html"><img src="../assets/ZhasylBonus.png" alt="ZhaylBonus" class="logo-img"></a>
+            </div>
+            <button class="nav-toggle" id="nav-toggle">
+                <span class="hamburger"></span>
+            </button>
+            <nav class="nav-menu" id="main-nav">
+                <a href="../index.html" class="nav-btn">Главная</a>
+                <a href="map.html" class="nav-btn">Карта проблем</a>
+                <a href="report.html" class="nav-btn">Отправить отчёт</a>
+                <a href="volunteers.html" class="nav-btn">Волонтёры</a>
+            </nav>
+            <div class="nav-actions">
+                <a href="donate.html" class="donate-now">Donate Now</a>
+                <div class="user-info">
+                    <span id="username-display"></span>
+                    <button class="login-btn" id="login-toggle">Вход</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="auth-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="auth-container">
+                <div class="auth-tab active" data-tab="login">
+                    <h2>Вход</h2>
+                    <form id="login-form" onsubmit="handleSupabaseLogin(event)">
+                        <input type="email" placeholder="Email" id="login-email" required>
+                        <input type="password" placeholder="Пароль" id="login-password" required>
+                        <button type="submit" class="auth-submit">Вход</button>
+                    </form>
+                </div>
+                <div class="auth-tab" data-tab="register">
+                    <h2>Регистрация</h2>
+                    <form id="register-form" onsubmit="handleSupabaseRegister(event)">
+                        <input type="text" placeholder="Имя пользователя" id="register-name" required>
+                        <input type="email" placeholder="Email" id="register-email" required>
+                        <input type="password" placeholder="Пароль" id="register-password" required>
+                        <button type="submit" class="auth-submit">Зарегистрироваться</button>
+                    </form>
+                </div>
+                <div class="auth-tabs">
+                    <button class="tab-btn active" data-tab="login">Вход</button>
+                    <button class="tab-btn" data-tab="register">Регистрация</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main id="account-page" class="page active">
+        <div class="account-wide-wrapper">
+            
+            <header class="account-hero">
+                <span class="badge-tag">Личный кабинет</span>
+                <h2>Мой эко-счёт</h2>
+            </header>
+
+            <div class="account-dashboard-grid">
+                <div class="dashboard-main">
+                    <div class="balance-card-modern">
+                        <div class="balance-label">Доступные средства</div>
+                        <div class="balance-amount-group">
+                            <span id="balance-display" class="amount">0</span>
+                            <span class="currency-label">баллов</span>
+                        </div>
+                        <p class="balance-footer">Используйте баллы для улучшения экологии города</p>
+                    </div>
+
+                    <div class="rewards-section-modern">
+                        <div class="section-header">
+                            <h3>Доступные вознаграждения</h3>
+                        </div>
+                        
+                        <div class="rewards-grid">
+                            <div class="reward-card">
+                                <div class="reward-top">
+                                    <div class="reward-icon-box">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8a13 13 0 0 1-13 13"/><path d="M9.5 14.5L16 8"/></svg>
+                                    </div>
+                                    <span class="reward-price">500</span>
+                                </div>
+                                <h4>Зелёный значок</h4>
+                                <p class="reward-desc">Статус верифицированного участника и особая метка в профиле.</p>
+                                <button class="reward-btn-action" data-reward="badge-green" data-cost="500">Обменять</button>
+                            </div>
+
+                            <div class="reward-card">
+                                <div class="reward-top">
+                                    <div class="reward-icon-box">
+                                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M12 22V10" />
+                                            <path d="M12 15l-3-2.5" />
+                                            <path d="M12 5.5c-2.5 0-4.5 1.8-4.5 4.5 0 0.5.1 1 .3 1.5C6.5 11.5 5.5 12.5 5.5 14s1 2.5 2.5 2.5h8c1.5 0 2.5-1 2.5-2.5s-1-2.5-2.3-2.5c.2-.5.3-1 .3-1.5 0-2.7-2-4.5-4.5-4.5z" />
+                                        </svg>
+                                    </div>
+                                    <span class="reward-price">1000</span>
+                                </div>
+                                <h4>Именное дерево</h4>
+                                <p class="reward-desc">Мы высадим дерево в городском парке и закрепим его за вашим аккаунтом.</p>
+                                <button class="reward-btn-action" data-reward="tree" data-cost="1000">Обменять</button>
+                            </div>
+
+                            <div class="reward-card">
+                                <div class="reward-top">
+                                    <div class="reward-icon-box">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                    </div>
+                                    <span class="reward-price">2000</span>
+                                </div>
+                                <h4>Eco Certificate</h4>
+                                <p class="reward-desc">Официальный цифровой документ, подтверждающий ваш вклад в экологию.</p>
+                                <button class="reward-btn-action" data-reward="certificate" data-cost="2000">Обменять</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <aside class="dashboard-sidebar">
+                    <div class="sidebar-card stats-box">
+                        <div class="stat-row"><span>Отчётов:</span><strong id="user-reports">0</strong></div>
+                        <div class="stat-row"><span>Заработано:</span><strong id="user-earned">0</strong></div>
+                        <div class="stat-row"><span>Пожертвовано:</span><strong id="user-donated">0</strong></div>
+                    </div>
+
+                    <div class="sidebar-card history-box">
+                        <h3>История баллов</h3>
+                        <div id="transactions-list" class="transactions-minimal"></div>
+                    </div>
+
+                    <button class="logout-link" id="logout-btn">Выйти из системы</button>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <div id="notification" class="notification hidden"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="../js/config.js"></script>
+    <script src="../js/ui.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/app.new.js"></script>
+    <script>document.body.dataset.page = 'account';</script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ZhasylBonus - Волонтёрская программа</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="../styles/main.css">
+	<link rel="stylesheet" href="../styles/volunteers.css">
+</head>
+
+<body>
+	<div class="app-container">
+		<!-- Навигация -->
+		<header class="navbar navbar-clean">
+			<div class="navbar-container">
+				<div class="logo logo-with-image">
+					<a href="../index.html"><img src="../assets/ZhasylBonus.png" alt="ZhaylBonus" class="logo-img"></a>
+				</div>
+				<button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Меню">
+					<span class="hamburger"></span>
+				</button>
+				<nav class="nav-menu" id="main-nav" role="navigation">
+					<a href="../index.html" class="nav-btn">Главная</a>
+					<a href="map.html" class="nav-btn">Карта проблем</a>
+					<a href="report.html" class="nav-btn">Отправить отчёт</a>
+					<a href="volunteers.html" class="nav-btn active">Волонтёры</a>
+				</nav>
+				<div class="nav-actions">
+					<a href="donate.html" class="donate-now">Donate Now</a>
+					<div class="user-info">
+						<span id="username-display"></span>
+						<button class="login-btn" id="login-toggle">Вход</button>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<div id="auth-modal" class="modal hidden">
+			<div class="modal-content">
+				<span class="close">&times;</span>
+				<div class="auth-container">
+					<div class="auth-tab active" data-tab="login">
+						<h2>Вход</h2>
+						<form id="login-form" onsubmit="handleSupabaseLogin(event)">
+							<input type="email" placeholder="Email" id="login-email" required>
+							<input type="password" placeholder="Пароль" id="login-password" required>
+							<button type="submit">Вход</button>
+						</form>
+					</div>
+					<div class="auth-tab" data-tab="register">
+						<h2>Регистрация</h2>
+						<form id="register-form" onsubmit="handleSupabaseRegister(event)">
+							<input type="text" placeholder="Имя пользователя" id="register-name" required>
+							<input type="email" placeholder="Email" id="register-email" required>
+							<input type="password" placeholder="Пароль" id="register-password" required>
+							<button type="submit">Зарегистрироваться</button>
+						</form>
+					</div>
+					<div class="auth-tabs">
+						<button class="tab-btn active" data-tab="login">Вход</button>
+						<button class="tab-btn" data-tab="register">Регистрация</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Страница волонтёров -->
+		<section id="volunteers-page" class="page active">
+    <div class="bg-blob"></div>
+    <div class="bg-blob-2"></div>
+
+    <div class="volunteers-container">
+        <div class="volunteers-hero">
+        
+            <h2>Станьте героем <br><span class="text-gradient">зеленой революции</span></h2>
+            <p class="volunteers-intro">Присоединяйтесь к тысячам волонтеров. Выполняйте миссии, восстанавливайте экосистему и получайте признание, которое имеет значение.</p>
+            
+            <div class="volunteer-stats-row">
+                <div class="v-stat">
+                    <span class="v-stat-num" id="completed-missions">0</span>
+                    <span class="v-stat-desc">Миссий выполнено</span>
+                </div>
+                <div class="v-stat-divider"></div>
+                <div class="v-stat">
+                    <span class="v-stat-num" id="volunteer-level">Новичок</span>
+                    <span class="v-stat-desc">Ваш текущий статус</span>
+                </div>
+                <div class="v-stat-divider"></div>
+                <div class="v-stat">
+                    <span class="v-stat-num" id="volunteer-rating">0</span>
+                    <span class="v-stat-desc">Рейтинг влияния</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content-layout">
+            <div class="missions-column">
+                <div class="section-header-flex">
+                    <h3>Актуальные миссии</h3>
+                    <div class="mission-filters">
+                        <button class="filter-pill active" data-difficulty="all">Все</button>
+                        <button class="filter-pill" data-difficulty="easy">Легкие</button>
+                        <button class="filter-pill" data-difficulty="medium">Средние</button>
+                    </div>
+                </div>
+
+                <div class="missions-grid-modern" id="missions-grid">
+                    </div>
+            </div>
+
+            <aside class="volunteers-sidebar">
+                <div class="sidebar-block">
+                    <h4> Топ активистов</h4>
+                    <div class="leaderboard-compact" id="leaderboard">
+                        </div>
+                </div>
+
+                <div class="sidebar-block achievement-showcase">
+                    <h4> Ваши достижения</h4>
+                    <div class="achievements-circle-grid" id="achievements-grid">
+                        </div>
+                </div>
+            </aside>
+        </div>
+
+        <div class="certificates-banner">
+            <div class="banner-content">
+                <h3>Ваш вклад официально подтвержден</h3>
+                <p>Получайте именные сертификаты за достижение уровней, которые можно добавить в резюме или портфолио.</p>
+                <div id="certificates-list" class="cert-mini-list"></div>
+            </div>
+            <div class="banner-image">
+                <img src="../assets/certificate-mockup.png" alt="Certificate" class="floating">
+            </div>
+        </div>
+    </div>
+</section>
+
+			<!-- Модальное окно миссии -->
+			<div id="mission-modal" class="modal hidden">
+				<div class="modal-content mission-modal-content">
+					<span class="close">&times;</span>
+					<div id="mission-details-content">
+						<!-- Заполняется JS -->
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<!-- Уведомления -->
+	<div id="notification" class="notification hidden"></div>
+
+	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+	
+	<!-- Модульная структура JS -->
+	<script src="../js/config.js"></script>
+	<script src="../js/ui.js"></script>
+	<script src="../js/auth.js"></script>
+	<script src="../js/api.js"></script>
+	<script src="../js/map.js"></script>
+	<script src="../js/missions.js"></script>
+	<script src="../js/app.new.js"></script>
+	
+	<script>
+		document.body.dataset.page = 'volunteers';
+	</script>
+</body>
+
+</html>

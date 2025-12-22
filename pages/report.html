@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZhasylBonus - Отправить отчёт</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/report-update.css">
+</head>
+
+<body data-page="report">
+    <div class="app-container">
+        <header class="navbar navbar-clean">
+            <div class="navbar-container">
+                <div class="logo logo-with-image">
+                    <a href="../index.html"><img src="../assets/ZhasylBonus.png" alt="ZhasylBonus" class="logo-img"></a>
+                </div>
+                <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Меню">
+                    <span class="hamburger"></span>
+                </button>
+                <nav class="nav-menu" id="main-nav" role="navigation">
+                    <a href="../index.html" class="nav-btn">Главная</a>
+                    <a href="map.html" class="nav-btn">Карта</a>
+                    <a href="report.html" class="nav-btn active">Отправить отчёт</a>
+                    <a href="volunteers.html" class="nav-btn">Волонтёры</a>
+                </nav>
+                <div class="nav-actions">
+                    <a href="donate.html" class="donate-now">Donate</a>
+                    <div class="user-info">
+                        <span id="username-display"></span>
+                        <button class="login-btn" id="login-toggle">Вход</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section id="report-page" class="page active">
+                <div class="report-container">
+                    <div class="page-header">
+                        <h1>Сообщить о проблеме</h1>
+                        <p>Опишите ситуацию, и волонтёры примут меры</p>
+                    </div>
+
+                    <div class="form-card">
+                        <form id="report-form" onsubmit="submitReport(event)">
+                            <!-- Basic Info -->
+                            <div class="form-section">
+                                <h3 class="section-title"><i class="fas fa-info-circle"></i> Основные сведения</h3>
+                                <div class="form-group">
+                                    <label for="report-title">Название проблемы</label>
+                                    <input type="text" id="report-title" placeholder="Краткое описание (5-10 слов)" required>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="report-type">Тип проблемы</label>
+                                        <select id="report-type" required>
+                                            <option value="" disabled selected>Выберите категорию</option>
+                                            <option value="pollution">Загрязнение воздуха</option>
+                                            <option value="deforestation">Вырубка лесов</option>
+                                            <option value="water">Загрязнение воды</option>
+                                            <option value="waste">Несанкционированная свалка</option>
+                                            <option value="other">Другое</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="report-urgency">Срочность</label>
+                                        <select id="report-urgency" required>
+                                            <option value="low">Низкая</option>
+                                            <option value="medium" selected>Средняя</option>
+                                            <option value="high">Высокая</option>
+                                            <option value="critical">Критичная</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Description -->
+                            <div class="form-section">
+                                <h3 class="section-title"><i class="fas fa-align-left"></i> Детали</h3>
+                                <div class="form-group">
+                                    <label for="report-description">Подробное описание</label>
+                                    <textarea id="report-description" maxlength="500" placeholder="Опишите ситуацию подробно..." required></textarea>
+                                    <div class="char-count"><span id="char-counter">0</span>/500 символов</div>
+                                </div>
+                            </div>
+
+                            <!-- Photos -->
+                            <div class="form-section">
+                                <h3 class="section-title"><i class="fas fa-camera"></i> Фотографии</h3>
+                                <div class="form-group">
+                                    <label>Добавить фотографии (макс. 3 фото)</label>
+                                    <div class="photo-upload-container">
+                                        <div class="photo-upload-card">
+                                            <input type="file" id="report-photo" accept="image/*" multiple class="photo-file-input">
+                                            <label for="report-photo" class="photo-upload-label">
+                                               
+                                            </label>
+                                            <p class="photo-upload-hint">Поддерживаются JPG, PNG до 5MB</p>
+                                        </div>
+                                        <div id="photo-preview" class="photo-preview-grid"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Location -->
+<div class="form-section location-section">
+    <h3 class="section-title">
+        <i class="fas fa-map-marker-alt"></i> Местоположение
+    </h3>
+    <div class="location-container">
+        <div class="form-group">
+            <label>Укажите точку на карте или введите адрес</label>
+            <div class="location-input-wrapper">
+                <div class="location-input-group">
+                    <input type="text" id="report-location" placeholder="Адрес определится автоматически" required>
+                    <button type="button" id="use-location-btn" class="location-action-btn" title="Моя локация">
+                        <i class="fas fa-location-arrow"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="map-section">
+            <div class="map-header"></div>
+            <div id="map-picker-container">
+                <div id="map-selection"></div>
+                <div class="map-overlay-hint">Кликните на карту для выбора точки</div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="report-lat">
+    <input type="hidden" id="report-lng">
+</div>
+                            <!-- Submit -->
+                            <div class="submit-section">
+                                <button type="submit" class="submit-btn">
+                                    <i class="fas fa-paper-plane"></i>
+                                    Отправить отчёт
+                                </button>
+                                <p class="privacy-notice">
+                                    <i class="fas fa-shield-alt"></i>
+                                    Ваши данные защищены
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <div id="notification" class="notification hidden"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <script src="../js/config.js"></script>
+    <script src="../js/ui.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/map.js"></script>
+    <script src="../js/missions.js"></script>
+    <script src="../js/app.new.js"></script>
+
+    <script>
+        /* --- 1. MAP PICKER LOGIC --- */
+        const map = L.map('map-selection').setView([47.0945, 51.9238], 12);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+        
+        let marker;
+
+        function updateMarker(lat, lng) {
+            if (marker) map.removeLayer(marker);
+            marker = L.marker([lat, lng]).addTo(map);
+            document.getElementById('report-lat').value = lat;
+            document.getElementById('report-lng').value = lng;
+            
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('report-location').value = data.display_name || "Адрес найден";
+                })
+                .catch(() => {
+                    document.getElementById('report-location').value = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+                });
+        }
+
+        map.on('click', (e) => updateMarker(e.latlng.lat, e.latlng.lng));
+
+        document.getElementById('use-location-btn').addEventListener('click', () => {
+            map.locate({setView: true, maxZoom: 16});
+        });
+
+        map.on('locationfound', (e) => updateMarker(e.latlng.lat, e.latlng.lng));
+
+        /* --- 2. LOCATION CLEAR BUTTON --- */
+        document.getElementById('clear-location-btn').addEventListener('click', () => {
+            document.getElementById('report-location').value = '';
+            document.getElementById('report-lat').value = '';
+            document.getElementById('report-lng').value = '';
+            
+            if (marker) {
+                map.removeLayer(marker);
+                marker = null;
+            }
+        });
+
+        /* --- 3. CHARACTER COUNTER --- */
+        const description = document.getElementById('report-description');
+        const charCounter = document.getElementById('char-counter');
+        
+        description.addEventListener('input', function() {
+            charCounter.textContent = this.value.length;
+        });
+
+        /* --- 4. PHOTO UPLOAD --- */
+        const photoInput = document.getElementById('report-photo');
+        const photoPreview = document.getElementById('photo-preview');
+
+        photoInput.addEventListener('change', handlePhotoUpload);
+
+        // Drag and drop
+        const uploadLabel = document.querySelector('.photo-upload-label');
+        
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadLabel.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadLabel.addEventListener(eventName, () => {
+                uploadLabel.classList.add('dragover');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadLabel.addEventListener(eventName, () => {
+                uploadLabel.classList.remove('dragover');
+            }, false);
+        });
+
+        uploadLabel.addEventListener('drop', (e) => {
+            const files = e.dataTransfer.files;
+            if (files.length) {
+                photoInput.files = files;
+                handlePhotoUpload({ target: { files } });
+            }
+        });
+
+        function handlePhotoUpload(e) {
+            const files = Array.from(e.target.files).slice(0, 3);
+            photoPreview.innerHTML = '';
+            
+            if (files.length === 0) return;
+            
+            files.forEach((file, index) => {
+                if (!file.type.startsWith('image/')) return;
+                
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const previewItem = document.createElement('div');
+                    previewItem.className = 'preview-item';
+                    previewItem.innerHTML = `
+                        <img src="${event.target.result}" alt="Preview ${index + 1}">
+                        <button type="button" class="preview-remove" onclick="removePhoto(${index})">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <div class="preview-info">${file.name}</div>
+                    `;
+                    photoPreview.appendChild(previewItem);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function removePhoto(index) {
+            const dt = new DataTransfer();
+            const files = Array.from(photoInput.files);
+            files.splice(index, 1);
+            files.forEach(file => dt.items.add(file));
+            photoInput.files = dt.files;
+            handlePhotoUpload({ target: { files: dt.files } });
+        }
+    </script>
+</body>
+</html>

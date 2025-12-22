@@ -1,0 +1,324 @@
+/* styles/volunteers.css — Figma-inspired organic style */
+
+:root {
+    --forest-deep: #1B4332;
+    --emerald-vibrant: #2D6A4F;
+    --mint-soft: #D8F3DC;
+    --accent-lime: #95D5B2;
+    --text-muted: #52796F;
+    --white-clean: #FFFFFF;
+    --bg-light: #F9FBF9;
+}
+
+#volunteers-page {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--bg-light);
+    padding-bottom: 5rem;
+}
+
+/* Декоративные элементы фона (как в Figma) */
+.bg-blob, .bg-blob-2 {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.bg-blob {
+    width: 500px;
+    height: 500px;
+    background: rgba(149, 213, 178, 0.2);
+    top: -100px;
+    right: -100px;
+}
+
+.bg-blob-2 {
+    width: 400px;
+    height: 400px;
+    background: rgba(45, 106, 79, 0.05);
+    bottom: 20%;
+    left: -100px;
+}
+
+.volunteers-container {
+    max-width: none;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* Hero секция */
+.volunteers-hero {
+    text-align: center;
+    padding: 5rem 0 4rem;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.badge-accent {
+    background: var(--mint-soft);
+    color: var(--forest-deep);
+    padding: 0.6rem 1.4rem;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    display: inline-block;
+    margin-bottom: 1.5rem;
+}
+
+.volunteers-hero h2 {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 800;
+    color: var(--forest-deep);
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+}
+
+.text-gradient {
+    background: linear-gradient(90deg, var(--emerald-vibrant), #74C69D);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.volunteers-intro {
+    max-width: 650px;
+    margin: 0 auto;
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* Статистика (Плашка) */
+.volunteer-stats-row {
+    display: inline-flex;
+    background: var(--white-clean);
+    padding: 2rem 4rem;
+    border-radius: 2.5rem;
+    box-shadow: 0 25px 50px -12px rgba(27, 67, 50, 0.08);
+    margin-top: 3.5rem;
+    gap: 3rem;
+    align-items: center;
+    border: 1px solid rgba(0,0,0,0.02);
+}
+
+.v-stat-num {
+    display: block;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--forest-deep);
+}
+
+.v-stat-desc {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.v-stat-divider {
+    width: 1px;
+    height: 45px;
+    background: #E8F0EA;
+}
+
+/* Основной контент */
+.main-content-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    gap: 2.5rem;
+    margin-top: 5rem;
+}
+
+.section-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.section-header-flex h3 {
+    font-size: 1.8rem;
+    color: var(--forest-deep);
+}
+
+/* Фильтры */
+.mission-filters {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.filter-pill {
+    padding: 0.7rem 1.5rem;
+    border-radius: 100px;
+    border: 1px solid #E2E8E4;
+    background: transparent;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--text-muted);
+}
+
+.filter-pill.active {
+    background: var(--forest-deep);
+    color: white;
+    border-color: var(--forest-deep);
+    box-shadow: 0 10px 20px rgba(27, 67, 50, 0.2);
+}
+
+/* Сетка миссий */
+.missions-grid-modern {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+.modern-card {
+    background: var(--white-clean);
+    border-radius: 2rem;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(0,0,0,0.03);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+}
+
+.modern-card:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 40px 80px rgba(27, 67, 50, 0.12);
+    border-color: var(--accent-lime);
+}
+
+.card-image-placeholder {
+    height: 200px;
+    background: linear-gradient(135deg, rgba(216, 243, 220, 0.95), rgba(149, 213, 178, 0.55));
+    position: relative;
+    /* Здесь можно добавить реальные фото через JS */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-image-svg {
+    width: 68px;
+    height: 68px;
+    fill: var(--emerald-vibrant);
+    opacity: 0.85;
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+.card-tag {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: var(--emerald-vibrant);
+    background: var(--mint-soft);
+    padding: 0.3rem 0.8rem;
+    border-radius: 8px;
+    text-transform: uppercase;
+}
+
+.card-body h4 {
+    margin: 1rem 0 0.75rem;
+    font-size: 1.4rem;
+    color: var(--forest-deep);
+}
+
+.card-body p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}
+
+.mission-meta-row {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    align-items: center;
+    color: var(--text-muted);
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.mission-meta-row span {
+    background: rgba(216, 243, 220, 0.7);
+    border: 1px solid rgba(45, 106, 79, 0.12);
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+}
+
+/* Сайдбар */
+.sidebar-block {
+    background: var(--white-clean);
+    padding: 2rem;
+    border-radius: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+}
+
+.sidebar-block h4 {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    color: var(--forest-deep);
+}
+
+/* Сертификат-баннер */
+.certificates-banner {
+    margin-top: 6rem;
+    background: var(--forest-deep);
+    border-radius: 3rem;
+    padding: 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    overflow: hidden;
+    position: relative;
+}
+
+.banner-content {
+    max-width: 50%;
+    z-index: 1;
+}
+
+.banner-content h3 {
+    font-size: 2.2rem;
+    margin-bottom: 1.2rem;
+}
+
+.banner-content p {
+    color: var(--accent-lime);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.floating {
+    animation: floating 4s ease-in-out infinite;
+    max-width: 300px;
+}
+
+@keyframes floating {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Адаптив */
+@media (max-width: 1024px) {
+    .main-content-layout { grid-template-columns: 1fr; }
+    .volunteer-stats-row { flex-wrap: wrap; padding: 2rem; justify-content: center; }
+    .certificates-banner { flex-direction: column; text-align: center; }
+    .banner-content { max-width: 100%; }
+}

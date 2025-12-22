@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ZhasylBonus - Карта проблем</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+	<link rel="stylesheet" href="../styles/main.css">
+	<link rel="stylesheet" href="../styles/map.css">
+</head>
+
+<body>
+	<div class="app-container">
+		<!-- Навигация -->
+		<header class="navbar navbar-clean">
+			<div class="navbar-container">
+				<div class="logo logo-with-image">
+					<a href="../index.html"><img src="../assets/ZhasylBonus.png" alt="ZhaylBonus" class="logo-img"></a>
+				</div>
+				<button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Меню">
+					<span class="hamburger"></span>
+				</button>
+				<nav class="nav-menu" id="main-nav" role="navigation">
+					<a href="../index.html" class="nav-btn">Главная</a>
+					<a href="map.html" class="nav-btn active">Карта проблем</a>
+					<a href="report.html" class="nav-btn">Отправить отчёт</a>
+					<a href="volunteers.html" class="nav-btn">Волонтёры</a>
+				</nav>
+				<div class="nav-actions">
+					<a href="donate.html" class="donate-now">Donate Now</a>
+					<div class="user-info">
+						<span id="username-display"></span>
+						<button class="login-btn" id="login-toggle">Вход</button>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<!-- Модальное окно входа/регистрации -->
+		<div id="auth-modal" class="modal hidden">
+			<div class="modal-content">
+				<span class="close">&times;</span>
+				<div class="auth-container">
+					<div class="auth-tab active" data-tab="login">
+						<h2>Вход</h2>
+						<form id="login-form" onsubmit="handleSupabaseLogin(event)">
+							<input type="email" placeholder="Email" id="login-email" required>
+							<input type="password" placeholder="Пароль" id="login-password" required>
+							<button type="submit">Вход</button>
+						</form>
+					</div>
+					<div class="auth-tab" data-tab="register">
+						<h2>Регистрация</h2>
+						<form id="register-form" onsubmit="handleSupabaseRegister(event)">
+							<input type="text" placeholder="Имя пользователя" id="register-name" required>
+							<input type="email" placeholder="Email" id="register-email" required>
+							<input type="password" placeholder="Пароль" id="register-password" required>
+							<button type="submit">Зарегистрироваться</button>
+						</form>
+					</div>
+					<div class="auth-tabs">
+						<button class="tab-btn active" data-tab="login">Вход</button>
+						<button class="tab-btn" data-tab="register">Регистрация</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<section id="map-page" class="page active">
+			<div class="map-container">
+				<div id="map"></div>
+				<div class="map-sidebar">
+					<h3>Фильтр по типам</h3>
+					<div class="filter-buttons">
+						<button class="filter-btn active" data-filter="all">Все</button>
+						<button class="filter-btn" data-filter="pollution">Загрязнение</button>
+						<button class="filter-btn" data-filter="deforestation">Вырубка лесов</button>
+						<button class="filter-btn" data-filter="water">Загрязнение воды</button>
+						<button class="filter-btn" data-filter="waste">Отходы</button>
+						<button class="filter-btn" data-filter="other">Другое</button>
+					</div>
+					<div id="report-details"></div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<!-- Уведомления -->
+	<div id="notification" class="notification hidden"></div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+	<!-- Модульная структура JS -->
+	<script src="../js/config.js"></script>
+	<script src="../js/ui.js"></script>
+	<script src="../js/auth.js"></script>
+	<script src="../js/api.js"></script>
+	<script src="../js/map.js"></script>
+	<script src="../js/missions.js"></script>
+	<script src="../js/app.new.js"></script>
+	
+	<script>
+		document.body.dataset.page = 'map';
+	</script>
+</body>
+
+</html>

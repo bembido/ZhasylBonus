@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zhasyl Bonus - Main Page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <header class="navbar navbar-clean">
+            <div class="navbar-container">
+                <div class="logo logo-with-image">
+                    <a href="index.html"><img src="assets/ZhasylBonus.png" alt="ZhasylBonus" class="logo-img"></a>
+                </div>
+                <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Меню">
+                    <span class="hamburger"></span>
+                </button>
+                <nav class="nav-menu" id="main-nav" role="navigation">
+                    <a href="index.html" class="nav-btn active" data-page="home">Главная</a>
+                    <a href="pages/map.html" class="nav-btn" data-page="map">Карта проблем</a>
+                    <a href="pages/report.html" class="nav-btn" data-page="report">Отправить отчёт</a>
+                    <a href="pages/volunteers.html" class="nav-btn" data-page="volunteers">Волонтёры</a>
+                </nav>
+                <div class="nav-actions">
+                    <a href="pages/donate.html" class="donate-now">Donate Now</a>
+                    <div class="user-info">
+                        <span id="username-display"></span>
+                        <button class="login-btn" id="login-toggle">Вход</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div id="auth-modal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="auth-container">
+                    <div class="auth-tab active" data-tab="login">
+                        <h2>Вход</h2>
+                        <form id="login-form" onsubmit="handleSupabaseLogin(event)">
+                            <input type="email" placeholder="Email" id="login-email" required>
+                            <input type="password" placeholder="Пароль" id="login-password" required>
+                            <button type="submit">Вход</button>
+                        </form>
+                    </div>
+                    <div class="auth-tab" data-tab="register">
+                        <h2>Регистрация</h2>
+                        <form id="register-form" onsubmit="handleSupabaseRegister(event)">
+                            <input type="text" placeholder="Имя пользователя" id="register-name" required>
+                            <input type="email" placeholder="Email" id="register-email" required>
+                            <input type="password" placeholder="Пароль" id="register-password" required>
+                            <button type="submit">Зарегистрироваться</button>
+                        </form>
+                    </div>
+                    <div class="auth-tabs">
+                        <button class="tab-btn active" data-tab="login">Вход</button>
+                        <button class="tab-btn" data-tab="register">Регистрация</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <section id="home-page" class="page active">
+            <div class="hero hero-landing">
+                <div class="hero-inner">
+                    <div class="hero-content">
+                        <div class="hero-eyebrow">SAVE NATURE, SAVE LIFE</div>
+                        <h2>Защищаем природу,<br>которая защищает нас</h2>
+                        <p class="lead">Отправляй информацию об экологических проблемах, зарабатывай бонусы и помогай организациям</p>
+                        <div class="hero-buttons">
+                            <a href="pages/report.html" class="btn-primary">Узнать больше →</a>
+                            <a href="pages/map.html" class="btn-secondary">Посмотреть карту</a>
+                        </div>
+                    </div>
+
+                    <div class="hero-media">
+                        <div class="hero-circle">
+                            <img src="https://i.pinimg.com/1200x/12/85/85/1285856c492a8ef5bef18bbcc9a060e8.jpg" alt="Nature">
+                            <div class="circle-annotations">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <section class="features services" id="how-it-works">
+                <div class="features-inner">
+                    <div class="features-left">
+                        <p class="eyebrow">НАША МИССИЯ</p>
+                        <h2>Прозрачная экосистема для защиты природы</h2>
+                        <p class="lead">Мы создали платформу, где каждый житель Казахстана может внести вклад в охрану окружающей среды и получить за это реальное вознаграждение.</p>
+                        
+                        <div class="stats-mini">
+                            <div class="stat-mini">
+                                <h3>98%</h3>
+                                <p>Отчётов обрабатывается в течение 24 часов</p>
+                            </div>
+                            <div class="stat-mini">
+                                <h3>5000+</h3>
+                                <p>Волонтёров уже присоединились к платформе</p>
+                            </div>
+                        </div>
+                        
+                        <a href="pages/report.html" class="btn-primary">Начать сейчас →</a>
+                    </div>
+                    
+                    <div class="features-right">
+                        <div class="feature-list">
+                            <div class="feature-item">
+                                <div class="feature-num">01</div>
+                                <div class="feature-content">
+                                    <h4>Загружай фото и локацию</h4>
+                                    <p>Сфотографируй экологическую проблему: несанкционированную свалку, загрязнение воды, вырубку леса или другие нарушения. Укажи точное местоположение на карте — это поможет организациям быстро среагировать и устранить проблему.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="feature-item">
+                                <div class="feature-num">02</div>
+                                <div class="feature-content">
+                                    <h4>Общая карта проблем</h4>
+                                    <p>Все отчёты отображаются на интерактивной карте в реальном времени. Вы можете отслеживать ситуацию в вашем районе, городе или по всей стране. Карта помогает выявлять тенденции и принимать превентивные меры.</p>
+                                    <div class="progress-demo">
+                                        <div class="progress-info">
+                                            <span>Активные отчёты по регионам</span>
+                                            <span>85%</span>
+                                        </div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 85%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="feature-item">
+                                <div class="feature-num">03</div>
+                                <div class="feature-content">
+                                    <h4>Зарабатывай бонусы и награды</h4>
+                                    <p>За каждый подтверждённый отчёт вы получаете эко-баллы, которые можно обменять на ценные призы, скидки от партнёров или сделать благотворительное пожертвование в экологические организации.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="feature-item">
+                                <div class="feature-num">04</div>
+                                <div class="feature-content">
+                                    <h4>Влияй на реальные изменения</h4>
+                                    <p>Ваши отчёты не остаются без внимания. Мы сотрудничаем с государственными органами и экологическими организациями, которые оперативно реагируют на проблемы и предоставляют отчёт об устранении.</p>
+                                    <div class="impact-stats">
+                                        <div class="impact-stat">
+                                            <strong>250+</strong>
+                                            <span>Проблем устранено</span>
+                                        </div>
+                                        <div class="impact-stat">
+                                            <strong>50+</strong>
+                                            <span>Партнёров</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="progress-features" aria-label="Наши услуги">
+                <div class="services-header">
+                    <p class="eyebrow">Наша статистика</p>
+                </div>
+                <div class="progress-inner">
+                    <div class="stats-grid" aria-label="Site stats">
+                        <div class="stat-card">
+                            <h3 id="reports-count">0</h3>
+                            <p>Отчёты отправлены</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3 id="users-count">0</h3>
+                            <p>Активные пользователи</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3 id="donated-amount">₸0</h3>
+                            <p>Пожертвования</p>
+                        </div>
+                    </div>
+                    <!-- Enhanced progress bars example -->
+                    <div class="progress-examples">
+                        <div class="progress-item">
+                            <div class="progress-label">Заполненность отчётов</div>
+                            <div class="progress-bar enhanced">
+                                <div class="progress-fill" style="width: 78%"></div>
+                            </div>
+                            <div class="progress-text">
+                                <span>Подробность данных</span>
+                                <span class="progress-percentage">78%</span>
+                            </div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-label">Скорость обработки</div>
+                            <div class="progress-bar enhanced primary">
+                                <div class="progress-fill" style="width: 92%"></div>
+                            </div>
+                            <div class="progress-text">
+                                <span>Среднее время ответа</span>
+                                <span class="progress-percentage">92%</span>
+                            </div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-label">Удовлетворённость пользователей</div>
+                            <div class="progress-bar enhanced accent">
+                                <div class="progress-fill" style="width: 96%"></div>
+                            </div>
+                            <div class="progress-text">
+                                <span>Положительные отзывы</span>
+                                <span class="progress-percentage">96%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div id="notification" class="notification hidden"></div>
+        </section>
+
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+        <script src="js/config.js"></script>
+        <script src="js/ui.js"></script>
+        <script src="js/auth.js"></script>
+        <script src="js/api.js"></script>
+        <script src="js/map.js"></script>
+        <script src="js/missions.js"></script>
+        <script src="js/app.new.js"></script>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,96 @@
+/* styles/donate.css — Donate page styles matching main.css / report-update.css look */
+:root{
+  --bg:#f7fbf6;
+  --card:#ffffff;
+  --muted:#6b7280;
+  --accent:#2f855a;
+  --accent-dark:#276e4a;
+  --primary:#0b6e4f;
+  --shadow: 0 6px 18px rgba(15,23,42,0.08);
+  --radius:12px;
+  --danger:#e53e3e;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  background:linear-gradient(180deg,#f2faf4 0%,var(--bg) 100%);
+  color:#111827;
+  -webkit-font-smoothing:antialiased;
+}
+.app-container{min-height:100vh;display:flex;flex-direction:column}
+.page{padding:28px 0}
+/* Full-width layout (no centered max-width container) */
+.donate-container{max-width:none;margin:24px 0 0 0;padding:0 clamp(16px, 3vw, 48px);background:transparent}
+
+/* Heading hierarchy */
+.donate-container h1,
+.donate-container h2{
+  margin:0 0 10px 0;
+  font-size:clamp(1.6rem, 2.1vw, 2.15rem);
+  line-height:1.15;
+  font-weight:800;
+  letter-spacing:-0.02em;
+  text-align:center;
+}
+
+.donate-container h3{
+  margin:0 0 10px 0;
+  font-size:clamp(1.05rem, 1.2vw, 1.35rem);
+  line-height:1.2;
+  font-weight:800;
+  letter-spacing:-0.01em;
+}
+
+.donate-intro{color:var(--muted);margin:0 auto 18px auto;max-width:70ch;font-size:1rem;line-height:1.65;text-align:center}
+
+/* Organizations grid */
+.organizations-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,360px));gap:14px;justify-content:center}
+.org-card{background:rgba(255,255,255,0.6);padding:14px;border-radius:12px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;backdrop-filter:blur(10px)}
+.org-icon{width:48px;height:48px;background:linear-gradient(135deg,#2f855a,#276e4a);display:inline-flex;align-items:center;justify-content:center;border-radius:10px;color:#fff;font-weight:700;font-size:12px;text-transform:uppercase}
+.org-icon svg{display:block;width:26px;height:26px}
+.org-card h3{margin:0;font-size:18px}
+.org-desc{margin:0;color:var(--muted);font-size:14px}
+
+/* Progress */
+.org-progress{display:flex;align-items:center;gap:10px;margin-top:8px}
+.progress-bar{flex:1;background:#eef6ef;border-radius:999px;height:12px;overflow:hidden;border:1px solid rgba(16,24,40,0.03)}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-dark));border-radius:999px}
+.progress-text{white-space:nowrap;color:var(--muted);font-size:13px}
+
+/* Donation controls */
+.donation-buttons{display:flex;gap:8px;margin-top:10px}
+.donation-input{width:100px;padding:8px;border-radius:8px;border:1px solid #e6e9ef}
+.btn-primary{background:var(--accent);color:#fff;padding:9px 12px;border-radius:10px;border:0;cursor:pointer;font-weight:600}
+.btn-primary:hover{background:var(--accent-dark)}
+.donation-input::-webkit-outer-spin-button,.donation-input::-webkit-inner-spin-button{appearance:none;margin:0}
+
+/* Impact section */
+.impact-section{margin-top:20px}
+.impact-section h3{margin:0 0 10px 0}
+.impact-info{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,320px));gap:12px;margin-top:10px;justify-content:center}
+.impact-item{background:rgba(255,255,255,0.6);padding:11px;border-radius:10px;box-shadow:var(--shadow);display:flex;align-items:center;gap:10px;backdrop-filter:blur(10px)}
+.impact-icon{width:32px;height:32px;background:linear-gradient(135deg,#2f855a,#276e4a);display:inline-flex;align-items:center;justify-content:center;border-radius:6px;color:#fff;font-weight:700}
+.impact-icon svg{display:block;width:20px;height:20px}
+.impact-item p{margin:0;color:var(--muted);font-size:14px}
+.impact-item strong{color:#111827}
+
+/* Notification */
+.notification{position:fixed;right:20px;bottom:20px;background:var(--card);padding:12px;border-radius:10px;box-shadow:var(--shadow)}
+.notification.hidden{display:none}
+
+/* Small helpers */
+.org-card .meta{display:flex;justify-content:space-between;align-items:center}
+
+/* Responsive */
+@media (max-width:1024px){
+  .organizations-grid{grid-template-columns:repeat(auto-fit,minmax(260px,360px))}
+  .impact-info{grid-template-columns:repeat(auto-fit,minmax(240px,320px))}
+}
+@media (max-width:640px){
+  .organizations-grid{grid-template-columns:1fr;justify-content:stretch}
+  .donation-buttons{flex-direction:row;gap:8px}
+  .impact-info{grid-template-columns:1fr;justify-content:stretch}
+  .donate-container{padding:0 12px}
+}

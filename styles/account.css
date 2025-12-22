@@ -1,0 +1,199 @@
+/* account.css — Professional Minimalist Style */
+:root {
+    --primary: #1B4332;
+    --secondary: #2D6A4F;
+    --accent: #40916C;
+    --mint: #D8F3DC;
+    --white: #ffffff;
+    --gray-bg: #F8FAF9;
+    --border: #E2E8F0;
+}
+
+body {
+    background-color: var(--gray-bg);
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    color: #1A202C;
+}
+
+/* Фон */
+.bg-blob, .bg-blob-2 {
+    position: absolute; border-radius: 50%; filter: blur(80px); z-index: -1;
+}
+.bg-blob { width: 500px; height: 500px; background: rgba(149, 213, 178, 0.15); top: -100px; left: -100px; }
+.bg-blob-2 { width: 300px; height: 300px; background: rgba(45, 106, 79, 0.05); bottom: 10%; right: 2%; }
+
+/* Обертка */
+.account-wide-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+}
+
+.badge-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--secondary);
+    background: var(--mint);
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+}
+
+.account-hero h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-top: 1rem;
+}
+
+/* Сетка */
+.account-dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 3rem;
+    margin-top: 2rem;
+}
+
+/* Баланс */
+.balance-card-modern {
+    background: var(--primary);
+    padding: 3rem;
+    border-radius: 1.5rem;
+    color: white;
+    margin-bottom: 3rem;
+    box-shadow: 0 20px 40px rgba(27, 67, 50, 0.1);
+}
+
+.balance-label { font-size: 0.9rem; opacity: 0.8; text-transform: uppercase; letter-spacing: 1px; }
+.balance-amount-group { display: flex; align-items: baseline; gap: 0.8rem; margin: 1rem 0; }
+.balance-amount-group .amount { font-size: 4rem; font-weight: 800; }
+.currency-label { font-size: 1.2rem; opacity: 0.9; }
+
+/* НАГРАДЫ (NEW) */
+.rewards-section-modern h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+.rewards-section-modern .section-header p { color: #718096; margin-bottom: 2rem; }
+
+.rewards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+}
+
+.reward-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    border: 1px solid var(--border);
+    transition: all 0.2s ease;
+}
+
+.reward-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.02);
+}
+
+.reward-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.reward-icon-box {
+    width: 48px;
+    height: 48px;
+    background: var(--gray-bg);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary);
+}
+
+.reward-price {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--secondary);
+    background: var(--mint);
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+}
+
+.reward-card h4 { margin: 0 0 0.5rem 0; font-size: 1.1rem; color: var(--primary); }
+.reward-desc { font-size: 0.9rem; color: #4A5568; line-height: 1.5; min-height: 3rem; margin-bottom: 1.5rem; }
+
+.reward-btn-action {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--border);
+    background: white;
+    border-radius: 8px;
+    font-weight: 700;
+    color: var(--primary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.reward-btn-action:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+/* Сайдбар */
+.sidebar-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--gray-bg);
+}
+.stat-row:last-child { border: none; }
+.stat-row span { color: #718096; font-size: 0.9rem; }
+
+.history-box h3 { font-size: 1rem; margin-bottom: 1.5rem; }
+.transactions-minimal { font-size: 0.85rem; color: #4A5568; }
+
+.logout-link {
+    width: 100%;
+    background: transparent;
+    border: 1px solid #FED7D7;
+    color: #C53030;
+    padding: 0.8rem;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.logout-link:hover { background: #FFF5F5; }
+
+/* Модальное окно */
+.modal {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 1000;
+}
+.modal.hidden { display: none; }
+.modal-content {
+    background: white; padding: 2.5rem; border-radius: 1.5rem; width: 380px; position: relative;
+}
+.auth-tab input {
+    width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid var(--border); border-radius: 8px;
+}
+.auth-submit {
+    width: 100%; padding: 0.8rem; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 700;
+}
+
+@media (max-width: 992px) {
+    .account-dashboard-grid { grid-template-columns: 1fr; }
+}
+
