@@ -133,7 +133,10 @@ function setupEventHandlers() {
     // Превью фото
     const photoInput = document.getElementById('report-photo');
     if (photoInput) {
-        photoInput.addEventListener('change', (e) => previewPhoto(e.target));
+        photoInput.addEventListener('change', async (e) => {
+            previewPhoto(e.target);
+            await autoClassifyReportPhoto(e.target);
+        });
     }
     
     // Кнопка геолокации
@@ -228,6 +231,54 @@ function collectReportFormData(form) {
     if (!type || !description) return null;
     
     return { title, type, urgency, description, location, photoFile, latitude, longitude };
+}
+
+async function autoClassifyReportPhoto(input) {
+    const file = input?.files?.[0];
+    const resultEl = document.getElementById('ai-classification-result');
+    const typeSelect = document.getElementById('report-type');
+
+    if (!file || !typeSelect) {
+        return;
+    }
+
+    if (resultEl) {
+        resultEl.textContent = 'AI анализирует фото...';
+        resultEl.classList.remove('error');
+    }
+
+    if (typeof classifyReportImage !== 'function') {
+        if (resultEl) {
+            resultEl.textContent = 'AI-классификация недоступна';
+            resultEl.classList.add('error');
+        }
+        return;
+    }
+
+    try {
+        const prediction = await classifyReportImage(file);
+        if (!prediction?.category) {
+            throw new Error('Категория не определена');
+        }
+
+        typeSelect.value = prediction.category;
+
+        const confidencePercent = Math.round((prediction.confidence || 0) * 100);
+        const categoryText = typeof getTypeLabel === 'function'
+            ? getTypeLabel(prediction.category)
+            : (prediction.categoryLabel || prediction.category);
+
+        if (resultEl) {
+            resultEl.textContent = `AI определил категорию: ${categoryText} (${confidencePercent}%)`;
+            resultEl.classList.remove('error');
+        }
+    } catch (error) {
+        console.error('Ошибка AI-классификации:', error);
+        if (resultEl) {
+            resultEl.textContent = 'Не удалось определить категорию автоматически';
+            resultEl.classList.add('error');
+        }
+    }
 }
 
 // Реальная отправка отчёта в Supabase

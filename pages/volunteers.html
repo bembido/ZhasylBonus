@@ -30,7 +30,7 @@
 					<a href="volunteers.html" class="nav-btn active">Волонтёры</a>
 				</nav>
 				<div class="nav-actions">
-					<a href="donate.html" class="donate-now">Donate Now</a>
+					<a href="donate.html" class="donate-now">Пожертвовать</a>
 					<div class="user-info">
 						<span id="username-display"></span>
 						<button class="login-btn" id="login-toggle">Вход</button>
@@ -70,93 +70,139 @@
 
 		<!-- Страница волонтёров -->
 		<section id="volunteers-page" class="page active">
-    <div class="bg-blob"></div>
-    <div class="bg-blob-2"></div>
+			<div class="bg-blob"></div>
+			<div class="bg-blob-2"></div>
 
-    <div class="volunteers-container">
-        <div class="volunteers-hero">
-        
-            <h2>Станьте героем <br><span class="text-gradient">зеленой революции</span></h2>
-            <p class="volunteers-intro">Присоединяйтесь к тысячам волонтеров. Выполняйте миссии, восстанавливайте экосистему и получайте признание, которое имеет значение.</p>
-            
-            <div class="volunteer-stats-row">
-                <div class="v-stat">
-                    <span class="v-stat-num" id="completed-missions">0</span>
-                    <span class="v-stat-desc">Миссий выполнено</span>
-                </div>
-                <div class="v-stat-divider"></div>
-                <div class="v-stat">
-                    <span class="v-stat-num" id="volunteer-level">Новичок</span>
-                    <span class="v-stat-desc">Ваш текущий статус</span>
-                </div>
-                <div class="v-stat-divider"></div>
-                <div class="v-stat">
-                    <span class="v-stat-num" id="volunteer-rating">0</span>
-                    <span class="v-stat-desc">Рейтинг влияния</span>
-                </div>
-            </div>
-        </div>
+			<div class="volunteers-container">
+				<div class="volunteers-hero">
 
-        <div class="main-content-layout">
-            <div class="missions-column">
-                <div class="section-header-flex">
-                    <h3>Актуальные миссии</h3>
-                    <div class="mission-filters">
-                        <button class="filter-pill active" data-difficulty="all">Все</button>
-                        <button class="filter-pill" data-difficulty="easy">Легкие</button>
-                        <button class="filter-pill" data-difficulty="medium">Средние</button>
-                    </div>
-                </div>
+					<h2>Станьте героем <br><span class="text-gradient">зеленой революции</span></h2>
+					<p class="volunteers-intro">Присоединяйтесь к тысячам волонтеров. Выполняйте миссии, восстанавливайте
+						экосистему и получайте признание, которое имеет значение.</p>
 
-                <div class="missions-grid-modern" id="missions-grid">
-                    </div>
-            </div>
+					<div class="volunteer-stats-row">
+						<div class="v-stat">
+							<span class="v-stat-num" id="completed-missions">0</span>
+							<span class="v-stat-desc">Миссий выполнено</span>
+						</div>
+						<div class="v-stat-divider"></div>
+						<div class="v-stat">
+							<span class="v-stat-num" id="volunteer-level">Новичок</span>
+							<span class="v-stat-desc">Ваш текущий статус</span>
+						</div>
+						<div class="v-stat-divider"></div>
+						<div class="v-stat">
+							<span class="v-stat-num" id="volunteer-rating">0</span>
+							<span class="v-stat-desc">Рейтинг влияния</span>
+						</div>
+					</div>
+				</div>
 
-            <aside class="volunteers-sidebar">
-                <div class="sidebar-block">
-                    <h4> Топ активистов</h4>
-                    <div class="leaderboard-compact" id="leaderboard">
-                        </div>
-                </div>
+				<div class="main-content-layout">
+					<div class="missions-column">
+						<div class="section-header-flex">
+							<h3>Актуальные миссии</h3>
+							<div class="mission-filters">
+								<button class="filter-pill active" data-difficulty="all">Все</button>
+								<button class="filter-pill" data-difficulty="easy">Легкие</button>
+								<button class="filter-pill" data-difficulty="medium">Средние</button>
+								<button class="filter-pill" data-difficulty="hard">Сложные</button>
+							</div>
+						</div>
 
-                <div class="sidebar-block achievement-showcase">
-                    <h4> Ваши достижения</h4>
-                    <div class="achievements-circle-grid" id="achievements-grid">
-                        </div>
-                </div>
-            </aside>
-        </div>
+						<div class="missions-grid-modern" id="missions-grid">
+						</div>
+					</div>
 
-        <div class="certificates-banner">
-            <div class="banner-content">
-                <h3>Ваш вклад официально подтвержден</h3>
-                <p>Получайте именные сертификаты за достижение уровней, которые можно добавить в резюме или портфолио.</p>
-                <div id="certificates-list" class="cert-mini-list"></div>
-            </div>
-            <div class="banner-image">
-                <img src="../assets/certificate-mockup.png" alt="Certificate" class="floating">
-            </div>
-        </div>
-    </div>
-</section>
+					<aside class="volunteers-sidebar">
+						<div class="sidebar-block">
+							<h4> Топ активистов</h4>
+							<div class="leaderboard-compact" id="leaderboard">
+							</div>
+						</div>
 
-			<!-- Модальное окно миссии -->
-			<div id="mission-modal" class="modal hidden">
-				<div class="modal-content mission-modal-content">
-					<span class="close">&times;</span>
-					<div id="mission-details-content">
-						<!-- Заполняется JS -->
+						<div class="sidebar-block achievement-showcase">
+							<h4> Ваши достижения</h4>
+							<div class="achievements-circle-grid" id="achievements-grid">
+							</div>
+						</div>
+					</aside>
+				</div>
+
+				<div class="certificates-banner">
+					<div class="banner-content">
+						<h3>Ваш вклад официально подтвержден</h3>
+						<p>Получайте именные сертификаты за достижение уровней, которые можно добавить в резюме или портфолио.</p>
+						<div id="certificates-list" class="cert-mini-list"></div>
+					</div>
+					<div class="banner-image">
+						<img src="../assets/certificate-mockup.png" alt="Certificate" class="floating">
 					</div>
 				</div>
 			</div>
 		</section>
+
+		<!-- Модальное окно миссии -->
+		<div id="mission-modal" class="modal hidden">
+			<div class="modal-content mission-modal-content">
+				<span class="close">&times;</span>
+				<div id="mission-details-content">
+					<!-- Заполняется JS -->
+				</div>
+			</div>
+		</div>
+		</section>
 	</div>
+
+	<!-- SITE FOOTER -->
+	<footer class="site-footer">
+		<div class="footer-inner">
+			<div class="footer-brand">
+				<a href="../index.html" class="footer-logo">
+					<img src="../assets/ZhasylBonus.png" alt="ZhasylBonus">
+					<span class="footer-logo-text">ZhasylBonus</span>
+				</a>
+				<p class="footer-tagline">Платформа для защиты природы Казахстана. Сообщай о проблемах, зарабатывай эко-баллы,
+					помогай планете.</p>
+				<div class="footer-socials">
+					<a href="#" class="footer-social-btn" aria-label="Instagram">IG</a>
+					<a href="#" class="footer-social-btn" aria-label="Telegram">TG</a>
+					<a href="#" class="footer-social-btn" aria-label="Facebook">FB</a>
+					<a href="#" class="footer-social-btn" aria-label="YouTube">YT</a>
+				</div>
+			</div>
+			<div class="footer-col">
+				<h5>Платформа</h5>
+				<ul class="footer-links">
+					<li><a href="../index.html">Главная</a></li>
+					<li><a href="map.html">Карта проблем</a></li>
+					<li><a href="report.html">Отправить отчёт</a></li>
+					<li><a href="volunteers.html">Волонтёры</a></li>
+					<li><a href="donate.html">Пожертвовать</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h5>Помощь</h5>
+				<ul class="footer-links">
+					<li><a href="#">О проекте</a></li>
+					<li><a href="#">FAQ</a></li>
+					<li><a href="#">Контакты</a></li>
+					<li><a href="#">Политика конфиденциальности</a></li>
+					<li><a href="#">Условия использования</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<p>© 2025 ZhasylBonus. Все права защищены. Сделано с заботой о природе Казахстана.</p>
+			<span class="footer-bottom-badge">Экологичный проект</span>
+		</div>
+	</footer>
 
 	<!-- Уведомления -->
 	<div id="notification" class="notification hidden"></div>
 
 	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-	
+
 	<!-- Модульная структура JS -->
 	<script src="../js/config.js"></script>
 	<script src="../js/ui.js"></script>
@@ -165,7 +211,7 @@
 	<script src="../js/map.js"></script>
 	<script src="../js/missions.js"></script>
 	<script src="../js/app.new.js"></script>
-	
+
 	<script>
 		document.body.dataset.page = 'volunteers';
 	</script>

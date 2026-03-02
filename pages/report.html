@@ -5,14 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZhasylBonus - Отправить отчёт</title>
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    
+
     <link rel="stylesheet" href="../styles/main.css">
     <link rel="stylesheet" href="../styles/report-update.css">
 </head>
@@ -24,7 +24,8 @@
                 <div class="logo logo-with-image">
                     <a href="../index.html"><img src="../assets/ZhasylBonus.png" alt="ZhasylBonus" class="logo-img"></a>
                 </div>
-                <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Меню">
+                <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav"
+                    aria-label="Меню">
                     <span class="hamburger"></span>
                 </button>
                 <nav class="nav-menu" id="main-nav" role="navigation">
@@ -34,7 +35,7 @@
                     <a href="volunteers.html" class="nav-btn">Волонтёры</a>
                 </nav>
                 <div class="nav-actions">
-                    <a href="donate.html" class="donate-now">Donate</a>
+                    <a href="donate.html" class="donate-now">Пожертвовать</a>
                     <div class="user-info">
                         <span id="username-display"></span>
                         <button class="login-btn" id="login-toggle">Вход</button>
@@ -42,6 +43,36 @@
                 </div>
             </div>
         </header>
+
+        <!-- Auth Modal -->
+        <div id="auth-modal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="auth-container">
+                    <div class="auth-tab active" data-tab="login">
+                        <h2>Вход</h2>
+                        <form id="login-form" onsubmit="handleSupabaseLogin(event)">
+                            <input type="email" placeholder="Email" id="login-email" required>
+                            <input type="password" placeholder="Пароль" id="login-password" required>
+                            <button type="submit">Вход</button>
+                        </form>
+                    </div>
+                    <div class="auth-tab" data-tab="register">
+                        <h2>Регистрация</h2>
+                        <form id="register-form" onsubmit="handleSupabaseRegister(event)">
+                            <input type="text" placeholder="Имя пользователя" id="register-name" required>
+                            <input type="email" placeholder="Email" id="register-email" required>
+                            <input type="password" placeholder="Пароль" id="register-password" required>
+                            <button type="submit">Зарегистрироваться</button>
+                        </form>
+                    </div>
+                    <div class="auth-tabs">
+                        <button class="tab-btn active" data-tab="login">Вход</button>
+                        <button class="tab-btn" data-tab="register">Регистрация</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <main class="main-content">
             <section id="report-page" class="page active">
@@ -51,106 +82,235 @@
                         <p>Опишите ситуацию, и волонтёры примут меры</p>
                     </div>
 
+                    <!-- Multi-step Progress Bar -->
+                    <div class="step-progress">
+                        <div class="step-line"></div>
+                        <div class="step-item active" data-step="1">
+                            <div class="step-circle"><i class="fas fa-info-circle"></i></div>
+                            <span class="step-label">Описание</span>
+                        </div>
+                        <div class="step-item" data-step="2">
+                            <div class="step-circle"><i class="fas fa-camera"></i></div>
+                            <span class="step-label">Медиа</span>
+                        </div>
+                        <div class="step-item" data-step="3">
+                            <div class="step-circle"><i class="fas fa-map-marker-alt"></i></div>
+                            <span class="step-label">Координаты</span>
+                        </div>
+                    </div>
+
                     <div class="form-card">
-                        <form id="report-form" onsubmit="submitReport(event)">
-                            <!-- Basic Info -->
-                            <div class="form-section">
-                                <h3 class="section-title"><i class="fas fa-info-circle"></i> Основные сведения</h3>
-                                <div class="form-group">
-                                    <label for="report-title">Название проблемы</label>
-                                    <input type="text" id="report-title" placeholder="Краткое описание (5-10 слов)" required>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label for="report-type">Тип проблемы</label>
-                                        <select id="report-type" required>
-                                            <option value="" disabled selected>Выберите категорию</option>
-                                            <option value="pollution">Загрязнение воздуха</option>
-                                            <option value="deforestation">Вырубка лесов</option>
-                                            <option value="water">Загрязнение воды</option>
-                                            <option value="waste">Несанкционированная свалка</option>
-                                            <option value="other">Другое</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="report-urgency">Срочность</label>
-                                        <select id="report-urgency" required>
-                                            <option value="low">Низкая</option>
-                                            <option value="medium" selected>Средняя</option>
-                                            <option value="high">Высокая</option>
-                                            <option value="critical">Критичная</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
+                        <form id="report-form" onsubmit="submitReport(event)" novalidate>
 
-                            <!-- Description -->
-                            <div class="form-section">
-                                <h3 class="section-title"><i class="fas fa-align-left"></i> Детали</h3>
-                                <div class="form-group">
-                                    <label for="report-description">Подробное описание</label>
-                                    <textarea id="report-description" maxlength="500" placeholder="Опишите ситуацию подробно..." required></textarea>
-                                    <div class="char-count"><span id="char-counter">0</span>/500 символов</div>
-                                </div>
-                            </div>
+                            <!-- ===== STEP 1: Basic Info + Details ===== -->
+                            <div class="form-step" id="step-1">
+                                <div class="form-section">
+                                    <h3 class="section-title"><i class="fas fa-info-circle"></i> Основные сведения</h3>
+                                    <div class="form-group">
+                                        <label for="report-title">Название проблемы <span class="req">*</span></label>
+                                        <input type="text" id="report-title" placeholder="Краткое описание (5-10 слов)"
+                                            required>
+                                        <span class="field-error" id="err-title"></span>
+                                    </div>
 
-                            <!-- Photos -->
-                            <div class="form-section">
-                                <h3 class="section-title"><i class="fas fa-camera"></i> Фотографии</h3>
-                                <div class="form-group">
-                                    <label>Добавить фотографии (макс. 3 фото)</label>
-                                    <div class="photo-upload-container">
-                                        <div class="photo-upload-card">
-                                            <input type="file" id="report-photo" accept="image/*" multiple class="photo-file-input">
-                                            <label for="report-photo" class="photo-upload-label">
-                                               
-                                            </label>
-                                            <p class="photo-upload-hint">Поддерживаются JPG, PNG до 5MB</p>
+                                    <!-- Category with emoji icons -->
+                                    <div class="form-group">
+                                        <label>Тип проблемы <span class="req">*</span></label>
+                                        <div class="category-grid" id="category-grid">
+                                            <button type="button" class="category-card" data-value="pollution">
+                                                <span class="cat-icon cat-air"></span>
+                                                <span class="cat-label">Загрязнение воздуха</span>
+                                            </button>
+                                            <button type="button" class="category-card" data-value="deforestation">
+                                                <span class="cat-icon cat-forest"></span>
+                                                <span class="cat-label">Вырубка лесов</span>
+                                            </button>
+                                            <button type="button" class="category-card" data-value="water">
+                                                <span class="cat-icon cat-water"></span>
+                                                <span class="cat-label">Загрязнение воды</span>
+                                            </button>
+                                            <button type="button" class="category-card" data-value="waste">
+                                                <span class="cat-icon cat-waste"></span>
+                                                <span class="cat-label">Несанкц. свалка</span>
+                                            </button>
+                                            <button type="button" class="category-card" data-value="other">
+                                                <span class="cat-icon cat-other"></span>
+                                                <span class="cat-label">Другое</span>
+                                            </button>
                                         </div>
-                                        <div id="photo-preview" class="photo-preview-grid"></div>
+                                        <input type="hidden" id="report-type" required>
+                                        <span class="field-error" id="err-type"></span>
+                                        <p id="ai-classification-result" class="ai-classification-hint">AI-подсказка
+                                            появится после загрузки фото</p>
                                     </div>
+
+                                    <!-- Visual urgency cards -->
+                                    <div class="form-group">
+                                        <label>Срочность <span class="req">*</span></label>
+                                        <div class="urgency-cards" id="urgency-cards">
+                                            <button type="button" class="urgency-card" data-value="low">
+                                                <span class="urgency-dot low-dot"></span>
+                                                <span class="urgency-name">Низкая</span>
+                                                <span class="urgency-pts">+25 баллов</span>
+                                            </button>
+                                            <button type="button" class="urgency-card selected" data-value="medium">
+                                                <span class="urgency-dot medium-dot"></span>
+                                                <span class="urgency-name">Средняя</span>
+                                                <span class="urgency-pts">+50 баллов</span>
+                                            </button>
+                                            <button type="button" class="urgency-card" data-value="high">
+                                                <span class="urgency-dot high-dot"></span>
+                                                <span class="urgency-name">Высокая</span>
+                                                <span class="urgency-pts">+75 баллов</span>
+                                            </button>
+                                            <button type="button" class="urgency-card" data-value="critical">
+                                                <span class="urgency-dot critical-dot"></span>
+                                                <span class="urgency-name">Критичная</span>
+                                                <span class="urgency-pts">+100 баллов</span>
+                                            </button>
+                                        </div>
+                                        <input type="hidden" id="report-urgency" value="medium">
+                                    </div>
+                                </div>
+
+                                <div class="form-section">
+                                    <h3 class="section-title"><i class="fas fa-align-left"></i> Детали</h3>
+                                    <div class="form-group">
+                                        <label for="report-description">Подробное описание <span
+                                                class="req">*</span></label>
+                                        <textarea id="report-description" maxlength="500"
+                                            placeholder="Опишите ситуацию подробно: что происходит, насколько опасно, с каких пор..."
+                                            required></textarea>
+                                        <div class="char-count"><span id="char-counter">0</span>/500 символов</div>
+                                        <span class="field-error" id="err-desc"></span>
+                                    </div>
+                                </div>
+
+                                <div class="step-nav">
+                                    <div></div>
+                                    <button type="button" class="btn-next" onclick="goToStep(2)">
+                                        Далее: Фото <i class="fas fa-arrow-right"></i>
+                                    </button>
                                 </div>
                             </div>
 
-                            <!-- Location -->
-<div class="form-section location-section">
-    <h3 class="section-title">
-        <i class="fas fa-map-marker-alt"></i> Местоположение
-    </h3>
-    <div class="location-container">
-        <div class="form-group">
-            <label>Укажите точку на карте или введите адрес</label>
-            <div class="location-input-wrapper">
-                <div class="location-input-group">
-                    <input type="text" id="report-location" placeholder="Адрес определится автоматически" required>
-                    <button type="button" id="use-location-btn" class="location-action-btn" title="Моя локация">
-                        <i class="fas fa-location-arrow"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="map-section">
-            <div class="map-header"></div>
-            <div id="map-picker-container">
-                <div id="map-selection"></div>
-                <div class="map-overlay-hint">Кликните на карту для выбора точки</div>
-            </div>
-        </div>
-    </div>
-    <input type="hidden" id="report-lat">
-    <input type="hidden" id="report-lng">
-</div>
-                            <!-- Submit -->
-                            <div class="submit-section">
-                                <button type="submit" class="submit-btn">
-                                    <i class="fas fa-paper-plane"></i>
-                                    Отправить отчёт
-                                </button>
-                                <p class="privacy-notice">
-                                    <i class="fas fa-shield-alt"></i>
-                                    Ваши данные защищены
-                                </p>
+                            <!-- ===== STEP 2: Photos ===== -->
+                            <div class="form-step hidden" id="step-2">
+                                <div class="form-section">
+                                    <h3 class="section-title"><i class="fas fa-camera"></i> Фотографии</h3>
+                                    <div class="form-group">
+                                        <label>Добавить фотографии (макс. 3 фото)</label>
+                                        <div class="photo-upload-container">
+                                            <div class="photo-upload-card" id="photo-drop-zone">
+                                                <input type="file" id="report-photo" accept="image/*" multiple
+                                                    class="photo-file-input">
+                                                <label for="report-photo" class="photo-upload-label">
+                                                    <div class="photo-upload-icon">
+                                                        <i class="fas fa-cloud-upload-alt"></i>
+                                                    </div>
+                                                    <div class="photo-upload-text">
+                                                        <p class="photo-upload-title">Перетащите фото сюда</p>
+                                                        <p class="photo-upload-subtitle">или <u>выберите файлы</u></p>
+                                                    </div>
+                                                </label>
+                                                <p class="photo-upload-hint">Поддерживаются JPG, PNG до 5MB · Макс. 3
+                                                    файла</p>
+                                            </div>
+                                            <div id="photo-preview" class="photo-preview-grid"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="step-nav">
+                                    <button type="button" class="btn-back" onclick="goToStep(1)">
+                                        <i class="fas fa-arrow-left"></i> Назад
+                                    </button>
+                                    <button type="button" class="btn-next" onclick="goToStep(3)">
+                                        Далее: Локация <i class="fas fa-arrow-right"></i>
+                                    </button>
+                                </div>
                             </div>
+
+                            <!-- ===== STEP 3: Location + Submit ===== -->
+                            <div class="form-step hidden" id="step-3">
+                                <div class="form-section location-section">
+                                    <h3 class="section-title">
+                                        <i class="fas fa-map-marker-alt"></i> Местоположение
+                                    </h3>
+                                    <div class="location-container">
+                                        <div class="form-group">
+                                            <label>Укажите точку на карте или введите адрес</label>
+                                            <div class="location-input-wrapper">
+                                                <div class="location-input-group">
+                                                    <input type="text" id="report-location"
+                                                        placeholder="Адрес определится автоматически" required>
+                                                    <button type="button" id="use-location-btn"
+                                                        class="location-action-btn" title="Моя геолокация">
+                                                        <i class="fas fa-location-arrow"></i>
+                                                    </button>
+                                                </div>
+
+                                                <!-- Address search autocomplete -->
+                                                <div class="address-search-wrap">
+                                                    <div class="address-search-group">
+                                                        <input type="text" id="address-search"
+                                                            placeholder="🔍 Поиск адреса (Алматы, ул. Абая...)">
+                                                        <button type="button" id="address-search-btn"
+                                                            class="search-btn">Найти</button>
+                                                    </div>
+                                                    <div id="address-suggestions" class="address-suggestions hidden">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="map-section">
+                                            <div class="map-header">
+                                                <span id="marker-status" class="marker-hint">Кликните на карту для
+                                                    установки метки</span>
+                                                <button type="button" id="reset-marker-btn"
+                                                    class="reset-marker-btn hidden">
+                                                    <i class="fas fa-times"></i> Сбросить метку
+                                                </button>
+                                            </div>
+                                            <div id="map-picker-container">
+                                                <div id="map-selection"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="report-lat">
+                                    <input type="hidden" id="report-lng">
+                                </div>
+
+                                <!-- Eco-Points Preview -->
+                                <div class="points-preview" id="points-preview">
+                                    <div class="points-icon points-icon-leaf"></div>
+                                    <div class="points-info">
+                                        <strong>За этот отчёт вы получите <span id="preview-points">50</span>
+                                            эко-баллов!</strong>
+                                        <span>Баллы начислятся после подтверждения отчёта</span>
+                                    </div>
+                                </div>
+
+                                <!-- Submit -->
+                                <div class="submit-section">
+                                    <button type="submit" class="submit-btn" id="submit-btn">
+                                        <i class="fas fa-paper-plane"></i>
+                                        Отправить отчёт
+                                    </button>
+                                    <p class="privacy-notice">
+                                        <i class="fas fa-shield-alt"></i>
+                                        Ваши данные защищены
+                                    </p>
+                                </div>
+
+                                <div class="step-nav" style="margin-top:1rem;">
+                                    <button type="button" class="btn-back" onclick="goToStep(2)">
+                                        <i class="fas fa-arrow-left"></i> Назад
+                                    </button>
+                                    <div></div>
+                                </div>
+                            </div>
+
                         </form>
                     </div>
                 </div>
@@ -160,101 +320,186 @@
         <div id="notification" class="notification hidden"></div>
     </div>
 
+    <!-- ===== SUCCESS MODAL ===== -->
+    <div id="success-modal" class="success-modal-overlay hidden">
+        <div class="success-modal">
+            <div class="success-confetti" id="confetti-container"></div>
+            <div class="success-icon">&#10003;</div>
+            <h2 class="success-title">Отчёт отправлен!</h2>
+            <p class="success-subtitle">Спасибо за вклад в защиту природы Казахстана!</p>
+            <div class="success-points-badge">
+                <span class="points-amount" id="success-points">+50</span>
+                <span class="points-label">эко-баллов начислено</span>
+            </div>
+            <div class="success-actions">
+                <a href="map.html" class="success-btn-primary">
+                    Посмотреть на карте
+                </a>
+                <button class="success-btn-secondary" onclick="resetReportForm()">
+                    Отправить ещё
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SITE FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <a href="../index.html" class="footer-logo">
+                    <img src="../assets/ZhasylBonus.png" alt="ZhasylBonus">
+                    <span class="footer-logo-text">ZhasylBonus</span>
+                </a>
+                <p class="footer-tagline">Платформа для защиты природы Казахстана.</p>
+                <div class="footer-socials">
+                    <a href="#" class="footer-social-btn">IG</a>
+                    <a href="#" class="footer-social-btn">TG</a>
+                    <a href="#" class="footer-social-btn">FB</a>
+                    <a href="#" class="footer-social-btn">YT</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h5>Платформа</h5>
+                <ul class="footer-links">
+                    <li><a href="../index.html">Главная</a></li>
+                    <li><a href="map.html">Карта проблем</a></li>
+                    <li><a href="report.html">Отправить отчёт</a></li>
+                    <li><a href="volunteers.html">Волонтёры</a></li>
+                    <li><a href="donate.html">Пожертвовать</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Помощь</h5>
+                <ul class="footer-links">
+                    <li><a href="#">О проекте</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Контакты</a></li>
+                    <li><a href="#">Политика конфиденциальности</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 ZhasylBonus. Все права защищены.</p>
+            <span class="footer-bottom-badge">Экологичный проект</span>
+        </div>
+    </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.1.1/dist/mobilenet.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    
+
     <script src="../js/config.js"></script>
     <script src="../js/ui.js"></script>
     <script src="../js/auth.js"></script>
     <script src="../js/api.js"></script>
     <script src="../js/map.js"></script>
     <script src="../js/missions.js"></script>
+    <script src="../js/ai_classification.js"></script>
     <script src="../js/app.new.js"></script>
 
     <script>
-        /* --- 1. MAP PICKER LOGIC --- */
-        const map = L.map('map-selection').setView([47.0945, 51.9238], 12);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap'
-        }).addTo(map);
-        
-        let marker;
+        /* ============================================================
+           REPORT PAGE — ENHANCED LOGIC
+        ============================================================ */
 
-        function updateMarker(lat, lng) {
-            if (marker) map.removeLayer(marker);
-            marker = L.marker([lat, lng]).addTo(map);
-            document.getElementById('report-lat').value = lat;
-            document.getElementById('report-lng').value = lng;
-            
-            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
-                .then(res => res.json())
-                .then(data => {
-                    document.getElementById('report-location').value = data.display_name || "Адрес найден";
-                })
-                .catch(() => {
-                    document.getElementById('report-location').value = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
-                });
+        /* ---- STEP NAVIGATION ---- */
+        let currentStep = 1;
+        const totalSteps = 3;
+
+        function goToStep(step) {
+            if (step === 2 && !validateStep1()) return;
+            document.querySelectorAll('.form-step').forEach(s => s.classList.add('hidden'));
+            document.getElementById('step-' + step).classList.remove('hidden');
+            currentStep = step;
+            updateStepProgress(step);
+            window.scrollTo({ top: document.querySelector('.step-progress').offsetTop - 80, behavior: 'smooth' });
         }
 
-        map.on('click', (e) => updateMarker(e.latlng.lat, e.latlng.lng));
+        function updateStepProgress(step) {
+            document.querySelectorAll('.step-item').forEach((item, idx) => {
+                item.classList.toggle('active', idx + 1 === step);
+                item.classList.toggle('completed', idx + 1 < step);
+            });
+        }
 
-        document.getElementById('use-location-btn').addEventListener('click', () => {
-            map.locate({setView: true, maxZoom: 16});
-        });
+        /* ---- STEP 1 VALIDATION ---- */
+        function validateStep1() {
+            let valid = true;
+            const title = document.getElementById('report-title').value.trim();
+            const type = document.getElementById('report-type').value;
+            const desc = document.getElementById('report-description').value.trim();
 
-        map.on('locationfound', (e) => updateMarker(e.latlng.lat, e.latlng.lng));
+            document.getElementById('err-title').textContent = '';
+            document.getElementById('err-type').textContent = '';
+            document.getElementById('err-desc').textContent = '';
 
-        /* --- 2. LOCATION CLEAR BUTTON --- */
-        document.getElementById('clear-location-btn').addEventListener('click', () => {
-            document.getElementById('report-location').value = '';
-            document.getElementById('report-lat').value = '';
-            document.getElementById('report-lng').value = '';
-            
-            if (marker) {
-                map.removeLayer(marker);
-                marker = null;
+            if (!title) {
+                document.getElementById('err-title').textContent = 'Введите название проблемы';
+                document.getElementById('report-title').classList.add('input-error');
+                valid = false;
+            } else {
+                document.getElementById('report-title').classList.remove('input-error');
             }
+            if (!type) {
+                document.getElementById('err-type').textContent = 'Выберите тип проблемы';
+                valid = false;
+            }
+            if (!desc || desc.length < 10) {
+                document.getElementById('err-desc').textContent = 'Опишите проблему подробнее (минимум 10 символов)';
+                document.getElementById('report-description').classList.add('input-error');
+                valid = false;
+            } else {
+                document.getElementById('report-description').classList.remove('input-error');
+            }
+            return valid;
+        }
+
+        /* ---- CATEGORY CARDS ---- */
+        document.querySelectorAll('.category-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.category-card').forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+                document.getElementById('report-type').value = card.dataset.value;
+                document.getElementById('err-type').textContent = '';
+            });
         });
 
-        /* --- 3. CHARACTER COUNTER --- */
+        /* ---- URGENCY CARDS ---- */
+        const urgencyPoints = { low: 25, medium: 50, high: 75, critical: 100 };
+        document.querySelectorAll('.urgency-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.urgency-card').forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+                const val = card.dataset.value;
+                document.getElementById('report-urgency').value = val;
+                document.getElementById('preview-points').textContent = urgencyPoints[val] || 50;
+                document.getElementById('success-points').textContent = '+' + (urgencyPoints[val] || 50);
+            });
+        });
+
+        /* ---- CHARACTER COUNTER ---- */
         const description = document.getElementById('report-description');
         const charCounter = document.getElementById('char-counter');
-        
-        description.addEventListener('input', function() {
+        description.addEventListener('input', function () {
             charCounter.textContent = this.value.length;
+            charCounter.style.color = this.value.length > 450 ? '#ef4444' : '';
         });
 
-        /* --- 4. PHOTO UPLOAD --- */
+        /* ---- PHOTO UPLOAD ---- */
         const photoInput = document.getElementById('report-photo');
         const photoPreview = document.getElementById('photo-preview');
+        const dropZone = document.getElementById('photo-drop-zone');
 
         photoInput.addEventListener('change', handlePhotoUpload);
 
-        // Drag and drop
-        const uploadLabel = document.querySelector('.photo-upload-label');
-        
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            uploadLabel.addEventListener(eventName, preventDefaults, false);
+        ['dragenter', 'dragover'].forEach(ev => {
+            dropZone.addEventListener(ev, e => { e.preventDefault(); dropZone.classList.add('dragover'); });
         });
-
-        function preventDefaults(e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-
-        ['dragenter', 'dragover'].forEach(eventName => {
-            uploadLabel.addEventListener(eventName, () => {
-                uploadLabel.classList.add('dragover');
-            }, false);
+        ['dragleave', 'drop'].forEach(ev => {
+            dropZone.addEventListener(ev, e => { e.preventDefault(); dropZone.classList.remove('dragover'); });
         });
-
-        ['dragleave', 'drop'].forEach(eventName => {
-            uploadLabel.addEventListener(eventName, () => {
-                uploadLabel.classList.remove('dragover');
-            }, false);
-        });
-
-        uploadLabel.addEventListener('drop', (e) => {
+        dropZone.addEventListener('drop', e => {
             const files = e.dataTransfer.files;
             if (files.length) {
                 photoInput.files = files;
@@ -262,27 +507,29 @@
             }
         });
 
+        photoInput.addEventListener('change', async (e) => {
+            previewPhoto(e.target);
+            await autoClassifyReportPhoto(e.target);
+        });
+
         function handlePhotoUpload(e) {
             const files = Array.from(e.target.files).slice(0, 3);
             photoPreview.innerHTML = '';
-            
-            if (files.length === 0) return;
-            
+            if (!files.length) return;
             files.forEach((file, index) => {
                 if (!file.type.startsWith('image/')) return;
-                
                 const reader = new FileReader();
-                reader.onload = (event) => {
-                    const previewItem = document.createElement('div');
-                    previewItem.className = 'preview-item';
-                    previewItem.innerHTML = `
-                        <img src="${event.target.result}" alt="Preview ${index + 1}">
-                        <button type="button" class="preview-remove" onclick="removePhoto(${index})">
-                            <i class="fas fa-times"></i>
-                        </button>
-                        <div class="preview-info">${file.name}</div>
-                    `;
-                    photoPreview.appendChild(previewItem);
+                reader.onload = event => {
+                    const item = document.createElement('div');
+                    item.className = 'preview-item';
+                    item.innerHTML = `
+                    <img src="${event.target.result}" alt="Preview ${index + 1}">
+                    <button type="button" class="preview-remove" onclick="removePhoto(${index})">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <div class="preview-info">${file.name}</div>
+                `;
+                    photoPreview.appendChild(item);
                 };
                 reader.readAsDataURL(file);
             });
@@ -292,10 +539,199 @@
             const dt = new DataTransfer();
             const files = Array.from(photoInput.files);
             files.splice(index, 1);
-            files.forEach(file => dt.items.add(file));
+            files.forEach(f => dt.items.add(f));
             photoInput.files = dt.files;
             handlePhotoUpload({ target: { files: dt.files } });
         }
+
+        /* ---- MAP PICKER ---- */
+        const map = L.map('map-selection', { scrollWheelZoom: false }).setView([43.2220, 76.8512], 12);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        // Touch: enable scroll wheel on tap
+        map.on('focus', () => map.scrollWheelZoom.enable());
+        map.on('blur', () => map.scrollWheelZoom.disable());
+
+        let marker;
+
+        function placeMarker(lat, lng) {
+            if (marker) map.removeLayer(marker);
+            marker = L.marker([lat, lng], {
+                icon: L.divIcon({
+                    className: '',
+                    html: '<div class="custom-marker">📍</div>',
+                    iconSize: [32, 32],
+                    iconAnchor: [16, 32]
+                })
+            }).addTo(map);
+            document.getElementById('report-lat').value = lat;
+            document.getElementById('report-lng').value = lng;
+            document.getElementById('marker-status').textContent = `Метка: ${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+            document.getElementById('reset-marker-btn').classList.remove('hidden');
+
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('report-location').value = data.display_name || `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+                })
+                .catch(() => {
+                    document.getElementById('report-location').value = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+                });
+        }
+
+        map.on('click', e => placeMarker(e.latlng.lat, e.latlng.lng));
+
+        // Reset marker
+        document.getElementById('reset-marker-btn').addEventListener('click', () => {
+            if (marker) { map.removeLayer(marker); marker = null; }
+            document.getElementById('report-lat').value = '';
+            document.getElementById('report-lng').value = '';
+            document.getElementById('report-location').value = '';
+            document.getElementById('marker-status').textContent = 'Кликните на карту для установки метки';
+            document.getElementById('reset-marker-btn').classList.add('hidden');
+        });
+
+        // GPS button
+        document.getElementById('use-location-btn').addEventListener('click', () => {
+            map.locate({ setView: true, maxZoom: 16 });
+        });
+        map.on('locationfound', e => placeMarker(e.latlng.lat, e.latlng.lng));
+        map.on('locationerror', () => showNotification('Не удалось определить геолокацию', 'error'));
+
+        // After map renders in step 3, invalidate size
+        document.querySelector('[onclick="goToStep(3)"]')?.addEventListener('click', () => {
+            setTimeout(() => map.invalidateSize(), 200);
+        });
+
+        /* ---- ADDRESS SEARCH ---- */
+        const addressInput = document.getElementById('address-search');
+        const suggestionsBox = document.getElementById('address-suggestions');
+        let searchTimer;
+
+        addressInput.addEventListener('input', () => {
+            clearTimeout(searchTimer);
+            const q = addressInput.value.trim();
+            if (q.length < 3) { suggestionsBox.classList.add('hidden'); return; }
+            searchTimer = setTimeout(() => searchAddress(q), 400);
+        });
+
+        document.getElementById('address-search-btn').addEventListener('click', () => {
+            searchAddress(addressInput.value.trim());
+        });
+
+        addressInput.addEventListener('keydown', e => {
+            if (e.key === 'Enter') { e.preventDefault(); searchAddress(addressInput.value.trim()); }
+        });
+
+        function searchAddress(q) {
+            if (!q) return;
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}&limit=5&countrycodes=kz`)
+                .then(r => r.json())
+                .then(results => {
+                    suggestionsBox.innerHTML = '';
+                    if (!results.length) {
+                        suggestionsBox.innerHTML = '<div class="suggestion-item no-result">Ничего не найдено</div>';
+                        suggestionsBox.classList.remove('hidden');
+                        return;
+                    }
+                    results.forEach(r => {
+                        const item = document.createElement('div');
+                        item.className = 'suggestion-item';
+                        item.textContent = r.display_name;
+                        item.addEventListener('click', () => {
+                            const lat = parseFloat(r.lat), lng = parseFloat(r.lon);
+                            map.setView([lat, lng], 16);
+                            placeMarker(lat, lng);
+                            addressInput.value = '';
+                            suggestionsBox.classList.add('hidden');
+                        });
+                        suggestionsBox.appendChild(item);
+                    });
+                    suggestionsBox.classList.remove('hidden');
+                })
+                .catch(() => { });
+        }
+
+        document.addEventListener('click', e => {
+            if (!e.target.closest('.address-search-wrap')) suggestionsBox.classList.add('hidden');
+        });
+
+        /* ---- SUCCESS MODAL ---- */
+        function showSuccessModal(points) {
+            document.getElementById('success-points').textContent = '+' + points;
+            document.getElementById('success-modal').classList.remove('hidden');
+            launchConfetti();
+        }
+
+        function resetReportForm() {
+            document.getElementById('success-modal').classList.add('hidden');
+            document.getElementById('report-form').reset();
+            document.querySelectorAll('.category-card').forEach(c => c.classList.remove('selected'));
+            document.querySelectorAll('.urgency-card').forEach(c => c.classList.remove('selected'));
+            document.querySelector('.urgency-card[data-value="medium"]').classList.add('selected');
+            document.getElementById('report-urgency').value = 'medium';
+            document.getElementById('report-type').value = '';
+            photoPreview.innerHTML = '';
+            if (marker) { map.removeLayer(marker); marker = null; }
+            document.getElementById('report-lat').value = '';
+            document.getElementById('report-lng').value = '';
+            document.getElementById('report-location').value = '';
+            document.getElementById('reset-marker-btn').classList.add('hidden');
+            document.getElementById('marker-status').textContent = 'Кликните на карту для установки метки';
+            charCounter.textContent = '0';
+            goToStep(1);
+        }
+
+        // Patch app.new.js submitReportData to show success modal
+        const _origSubmit = window.submitReportData;
+        window.submitReportData = async function (data, formRef) {
+            const urgencyVal = document.getElementById('report-urgency')?.value || 'medium';
+            const pts = urgencyPoints[urgencyVal] || 50;
+            if (_origSubmit) {
+                const origNotif = window.showNotification;
+                window.showNotification = function (msg, type) {
+                    if (type === 'success' && msg.includes('отправлен')) {
+                        showSuccessModal(pts);
+                        window.showNotification = origNotif;
+                        return;
+                    }
+                    origNotif(msg, type);
+                };
+                await _origSubmit(data, formRef);
+            } else {
+                showSuccessModal(pts);
+            }
+        };
+
+        /* ---- CONFETTI ---- */
+        function launchConfetti() {
+            const container = document.getElementById('confetti-container');
+            container.innerHTML = '';
+            const colors = ['#4ade80', '#22c55e', '#f59e0b', '#06b6d4', '#a78bfa', '#f43f5e'];
+            for (let i = 0; i < 60; i++) {
+                const el = document.createElement('div');
+                el.className = 'confetti-piece';
+                el.style.cssText = `
+                left: ${Math.random() * 100}%;
+                background: ${colors[Math.floor(Math.random() * colors.length)]};
+                animation-delay: ${Math.random() * 0.8}s;
+                animation-duration: ${1 + Math.random() * 1.5}s;
+                width: ${6 + Math.random() * 8}px;
+                height: ${6 + Math.random() * 8}px;
+                border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+            `;
+                container.appendChild(el);
+            }
+        }
+
+        // Close success modal on outside click
+        document.getElementById('success-modal').addEventListener('click', e => {
+            if (e.target === document.getElementById('success-modal')) resetReportForm();
+        });
+
     </script>
 </body>
+
 </html>

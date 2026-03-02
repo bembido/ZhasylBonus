@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
     <link rel="stylesheet" href="../styles/main.css">
     <link rel="stylesheet" href="../styles/account.css">
 </head>
+
 <body>
     <div class="bg-blob"></div>
     <div class="bg-blob-2"></div>
@@ -19,7 +21,7 @@
             <div class="logo logo-with-image">
                 <a href="../index.html"><img src="../assets/ZhasylBonus.png" alt="ZhaylBonus" class="logo-img"></a>
             </div>
-            <button class="nav-toggle" id="nav-toggle">
+            <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Меню">
                 <span class="hamburger"></span>
             </button>
             <nav class="nav-menu" id="main-nav">
@@ -29,7 +31,7 @@
                 <a href="volunteers.html" class="nav-btn">Волонтёры</a>
             </nav>
             <div class="nav-actions">
-                <a href="donate.html" class="donate-now">Donate Now</a>
+                <a href="donate.html" class="donate-now">Пожертвовать</a>
                 <div class="user-info">
                     <span id="username-display"></span>
                     <button class="login-btn" id="login-toggle">Вход</button>
@@ -69,7 +71,7 @@
 
     <main id="account-page" class="page active">
         <div class="account-wide-wrapper">
-            
+
             <header class="account-hero">
                 <span class="badge-tag">Личный кабинет</span>
                 <h2>Мой эко-счёт</h2>
@@ -90,46 +92,64 @@
                         <div class="section-header">
                             <h3>Доступные вознаграждения</h3>
                         </div>
-                        
+
                         <div class="rewards-grid">
                             <div class="reward-card">
                                 <div class="reward-top">
                                     <div class="reward-icon-box">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8a13 13 0 0 1-13 13"/><path d="M9.5 14.5L16 8"/></svg>
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path
+                                                d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8a13 13 0 0 1-13 13" />
+                                            <path d="M9.5 14.5L16 8" />
+                                        </svg>
                                     </div>
                                     <span class="reward-price">500</span>
                                 </div>
                                 <h4>Зелёный значок</h4>
                                 <p class="reward-desc">Статус верифицированного участника и особая метка в профиле.</p>
-                                <button class="reward-btn-action" data-reward="badge-green" data-cost="500">Обменять</button>
+                                <button class="reward-btn-action" data-reward="badge-green"
+                                    data-cost="500">Обменять</button>
                             </div>
 
                             <div class="reward-card">
                                 <div class="reward-top">
                                     <div class="reward-icon-box">
-                                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                            stroke-linejoin="round">
                                             <path d="M12 22V10" />
                                             <path d="M12 15l-3-2.5" />
-                                            <path d="M12 5.5c-2.5 0-4.5 1.8-4.5 4.5 0 0.5.1 1 .3 1.5C6.5 11.5 5.5 12.5 5.5 14s1 2.5 2.5 2.5h8c1.5 0 2.5-1 2.5-2.5s-1-2.5-2.3-2.5c.2-.5.3-1 .3-1.5 0-2.7-2-4.5-4.5-4.5z" />
+                                            <path
+                                                d="M12 5.5c-2.5 0-4.5 1.8-4.5 4.5 0 0.5.1 1 .3 1.5C6.5 11.5 5.5 12.5 5.5 14s1 2.5 2.5 2.5h8c1.5 0 2.5-1 2.5-2.5s-1-2.5-2.3-2.5c.2-.5.3-1 .3-1.5 0-2.7-2-4.5-4.5-4.5z" />
                                         </svg>
                                     </div>
                                     <span class="reward-price">1000</span>
                                 </div>
                                 <h4>Именное дерево</h4>
-                                <p class="reward-desc">Мы высадим дерево в городском парке и закрепим его за вашим аккаунтом.</p>
+                                <p class="reward-desc">Мы высадим дерево в городском парке и закрепим его за вашим
+                                    аккаунтом.</p>
                                 <button class="reward-btn-action" data-reward="tree" data-cost="1000">Обменять</button>
                             </div>
 
                             <div class="reward-card">
                                 <div class="reward-top">
                                     <div class="reward-icon-box">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <polygon
+                                                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                                        </svg>
                                     </div>
                                     <span class="reward-price">2000</span>
                                 </div>
                                 <h4>Eco Certificate</h4>
-                                <p class="reward-desc">Официальный цифровой документ, подтверждающий ваш вклад в экологию.</p>
-                                <button class="reward-btn-action" data-reward="certificate" data-cost="2000">Обменять</button>
+                                <p class="reward-desc">Официальный цифровой документ, подтверждающий ваш вклад в
+                                    экологию.</p>
+                                <button class="reward-btn-action" data-reward="certificate"
+                                    data-cost="2000">Обменять</button>
                             </div>
                         </div>
                     </div>
@@ -155,12 +175,57 @@
 
     <div id="notification" class="notification hidden"></div>
 
+    <!-- SITE FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <a href="../index.html" class="footer-logo">
+                    <img src="../assets/ZhasylBonus.png" alt="ZhasylBonus">
+                    <span class="footer-logo-text">ZhasylBonus</span>
+                </a>
+                <p class="footer-tagline">Платформа для защиты природы Казахстана.</p>
+                <div class="footer-socials">
+                    <a href="#" class="footer-social-btn">IG</a>
+                    <a href="#" class="footer-social-btn">TG</a>
+                    <a href="#" class="footer-social-btn">FB</a>
+                    <a href="#" class="footer-social-btn">YT</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h5>Платформа</h5>
+                <ul class="footer-links">
+                    <li><a href="../index.html">Главная</a></li>
+                    <li><a href="map.html">Карта проблем</a></li>
+                    <li><a href="report.html">Отправить отчёт</a></li>
+                    <li><a href="volunteers.html">Волонтёры</a></li>
+                    <li><a href="donate.html">Пожертвовать</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Помощь</h5>
+                <ul class="footer-links">
+                    <li><a href="#">О проекте</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Контакты</a></li>
+                    <li><a href="#">Политика конфиденциальности</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 ZhasylBonus. Все права защищены.</p>
+            <span class="footer-bottom-badge">🌿 Экологичный проект</span>
+        </div>
+    </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script src="../js/config.js"></script>
     <script src="../js/ui.js"></script>
     <script src="../js/auth.js"></script>
     <script src="../js/api.js"></script>
+    <script src="../js/map.js"></script>
+    <script src="../js/missions.js"></script>
     <script src="../js/app.new.js"></script>
     <script>document.body.dataset.page = 'account';</script>
 </body>
+
 </html>
